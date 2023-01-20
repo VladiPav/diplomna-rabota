@@ -1,39 +1,53 @@
-import admin from './firebase-service.js';
 import { Request, Response } from 'express';
+import { CustomError, HTTPStatusCode, InternalErrorMessage } from 'src/types/error.js';
 import prisma from './prisma-service.js';
 
-const createUser = async (req: Request, res: Response) => {
-    const {
+const createUser = async (userCreateInfo : User) : Promise<User> => {
+    try{
+      const {
         email,
         username,
-        password,
-    } = req.body;
+        firebaseId
+      } = userCreateInfo;
 
-    const result = await prisma.$transaction(async (tx) => {
-        const firebaseUser = await admin.auth().createUser({
+      const userAlreadyExists = await prisma.user.findFirst({
+        where: {firebaseId}
+      });
+
+      if (userAlreadyExists) {
+        const error = {
+          statusCode: HTTPStatusCode.BadRequest, 
+          message:"User already exists", 
+          internalMessage: InternalErrorMessage.BadRequest,
+        };
+        throw new CustomError(error);
+      }
+
+      const user = prisma.user.create({
+          data: {
             email,
-            password
-        });
+            username,
+            firebaseId
+          }
+      });
 
-        const firebaseId = firebaseUser.uid;
+      return user;
 
-        const dbUser = tx.user.create({
-            data: {
-                firebaseId,
-                username,
-                email,
-            }
-        });
-        return { user: { ...firebaseUser, ...dbUser } };
-    })
-
-    res.send(result);
+    }catch(e){
+      throw Error;
+    }
 }
 
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async () => {
     const users = prisma.user.findMany();
-    res.send(users);
+    return users;
 }
+
+const getUserById =async () => {
+  
+}
+
+
 
 export default {
     createUser,

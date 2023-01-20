@@ -9,4 +9,4 @@ router.get("/", userController.getUserById);
 
 router.post("/", userController.createUser);
 
-export default router
+export  const userRouter = router;
