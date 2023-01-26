@@ -13,39 +13,30 @@ model Category {
   name        String
   collections Collection[]
   elements    Element[]
+
+  @@map("category")
 }
 
 model Collection {
-  id                 String              @id @default(uuid()) @db.VarChar(256)
-  name               String
-  user               User                @relation("collections", fields: [userId], references: [id])
-  userId             String
-  category           Category            @relation(fields: [categoryId], references: [id])
-  categoryId         String
-  collectionElements CollectionElement[]
+  id         String    @id @default(uuid()) @db.VarChar(256)
+  name       String
+  user       User      @relation("collections", fields: [userId], references: [id])
+  userId     String
+  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId String
+  elements   Element[]
 
   @@map("collection")
 }
 
 model Element {
-  id         String   @id @default(uuid()) @db.VarChar(256)
-  name       String
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId String   @map("category_id")
-
-  collectionElements CollectionElement[]
+  id          String       @id @default(uuid()) @db.VarChar(256)
+  name        String
+  category    Category     @relation(fields: [categoryId], references: [id])
+  categoryId  String       @map("category_id")
+  collections Collection[]
 
   @@map("element")
-}
-
-model CollectionElement {
-  id           String     @id @default(uuid()) @db.VarChar(256)
-  collection   Collection @relation(fields: [collectionId], references: [id])
-  collectionId String     @map("collection_id")
-  element      Element    @relation(fields: [elementId], references: [id])
-  elementId    String
-
-  @@map("collection_element")
 }
 
 model User {

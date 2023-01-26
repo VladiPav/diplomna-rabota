@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from "express";
-import userRouter from "./user.js";
+import { userRouter } from "./user";
 const router = Router();
 
 router.get("/hello", (req: Request, res: Response) => {

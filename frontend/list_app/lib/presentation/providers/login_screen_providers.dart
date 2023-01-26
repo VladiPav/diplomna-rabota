@@ -1,0 +1,17 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/repository_providers.dart';
+import '../views/login_screen/controllers/login_state_controller.dart';
+
+final loginEmailControllerProvider =
+StateProvider.autoDispose<String>((ref) => '');
+final loginPasswordControllerProvider =
+StateProvider.autoDispose<String>((ref) => '');
+final loginControllerProvider = StateNotifierProvider<LoginController, void>(
+      (ref) => LoginController(
+    authRepository: ref.watch(
+      authRepositoryProvider,
+    ),
+  ),
+);
