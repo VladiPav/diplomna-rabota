@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-import '../../themes/themes.dart';
-import '../custom_widgets/custom_buttons/custom_button.dart';
-import '../custom_widgets/custom_buttons/variants/login_button.dart';
-import '../custom_widgets/custom_text_fields/variants/email_text_field.dart';
-import '../custom_widgets/custom_text_fields/variants/password_text_field.dart';
-import '../util/route_manager.dart';
+import '../../../themes/themes.dart';
+import 'widgets/email_text_field.dart';
+import 'widgets/login_button.dart';
+import '../../util/route_manager.dart';
+import 'widgets/password_text_field.dart';
 
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -34,14 +31,14 @@ class LoginScreen extends ConsumerWidget {
                   padding: EdgeInsets.all(10),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(50),
+                  padding: const EdgeInsets.all(50),
                   child: Column(
                     children: const [
-                      EmailTextField(),
+                      LoginEmailTextField(),
                       Padding(
                         padding: EdgeInsets.all(10),
                       ),
-                      PasswordTextField(),
+                      LoginPasswordTextField(),
                     ],
                   ),
                 ),

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../themes/themes.dart';
-import '../custom_widgets/custom_buttons/custom_button.dart';
-import '../custom_widgets/custom_buttons/variants/register_button.dart';
-import '../custom_widgets/custom_text_fields/variants/confirm_password_text_field.dart';
-import '../custom_widgets/custom_text_fields/variants/email_text_field.dart';
-import '../custom_widgets/custom_text_fields/variants/password_text_field.dart';
-import '../custom_widgets/custom_text_fields/variants/username_text_field.dart';
-import '../util/route_manager.dart';
+import '../../../themes/themes.dart';
+import 'widgets/password_text_field.dart';
+import 'widgets/register_button.dart';
+import 'widgets/confirm_password_text_field.dart';
+import 'widgets/email_text_field.dart';
+import 'widgets/username_text_field.dart';
+import '../../util/route_manager.dart';
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({Key? key}) : super(key: key);

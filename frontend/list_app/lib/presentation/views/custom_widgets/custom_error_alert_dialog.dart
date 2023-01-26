@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:list_app/presentation/views/custom_widgets/custom_alert_dialogs/custom_alert_dialog.dart';
+import 'package:list_app/presentation/views/custom_widgets/custom_alert_dialog.dart';
 
 class ErrorAlertDialog extends ConsumerWidget {
   const ErrorAlertDialog({
@@ -24,6 +24,7 @@ class ErrorAlertDialog extends ConsumerWidget {
         content: Text(
           errorMessage,
           style: const TextStyle(fontSize: 12),
+          textAlign: TextAlign.center,
         ),
         color: Colors.white,
     );

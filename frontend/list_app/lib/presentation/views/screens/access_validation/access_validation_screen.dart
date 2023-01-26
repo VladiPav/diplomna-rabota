@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:list_app/presentation/providers/auth_state_provider.dart';
-import 'package:list_app/presentation/providers/repository_providers.dart';
+import 'package:list_app/presentation/common_providers/auth_state_provider.dart';
+import 'package:list_app/presentation/common_providers/repository_providers.dart';
 import 'package:list_app/presentation/themes/themes.dart';
+import 'package:list_app/presentation/views/screens/profile_screen/profileScreen.dart';
 
-import 'login.dart';
+import '../login_screen/login.dart';
 
 
 class AccessValidator extends ConsumerWidget {
@@ -20,9 +21,12 @@ class AccessValidator extends ConsumerWidget {
 
     return authState.when(
       data:  (data) {
-          return Text("data");
+          if(data == null) {
+            return const LoginScreen();
+          }
+          return const ProfileScreen();
       },
-      error: (e, s) => LoginScreen(),
+      error: (e, s) => const LoginScreen(),
       loading: () => const Scaffold(
         body: Center(
           child: SpinKitWave(

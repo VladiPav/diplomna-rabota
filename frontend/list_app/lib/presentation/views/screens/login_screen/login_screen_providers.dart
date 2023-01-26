@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../controllers/login_state_controller.dart';
-import 'repository_providers.dart';
+import '../../../common_providers/repository_providers.dart';
+import 'login_state_controller.dart';
 
 final loginEmailControllerProvider =
 StateProvider.autoDispose<String>((ref) => '');

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../providers/login_screen_providers.dart';
-import '../../custom_alert_dialogs/variants/custom_error_alert_dialog.dart';
-import '../custom_button.dart';
+import '../login_screen_providers.dart';
+import '../../../custom_widgets/custom_error_alert_dialog.dart';
+import '../../../custom_widgets/custom_button.dart';
 
 class LoginButton extends ConsumerWidget {
   const LoginButton({

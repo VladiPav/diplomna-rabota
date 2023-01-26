@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/repositories/auth_repository.dart';
-import '../views/util/route_manager.dart';
+import '../../../../data/repositories/auth_repository.dart';
+import '../../util/route_manager.dart';
 
-class UserRegisterController extends StateNotifier<void> {
-  UserRegisterController({
+class RegisterController extends StateNotifier<void> {
+  RegisterController({
     required AuthRepository authRepository,
   })  : _authRepository = authRepository,
         super(null);
@@ -13,10 +13,6 @@ class UserRegisterController extends StateNotifier<void> {
 
   void navigateToAuth() {
     navigatorKey.currentState!.pushReplacementNamed(Routes.accessValidator);
-  }
-
-  void navigateToLogin() {
-    navigatorKey.currentState!.pushReplacementNamed(Routes.login);
   }
 
   Future<void> register(
@@ -29,7 +25,6 @@ class UserRegisterController extends StateNotifier<void> {
         .signUp(
       email: email,
       password: password,
-      username: username,
     )
         .then(
           (value) => _authRepository.getCurrentUser()!.sendEmailVerification(),
@@ -37,5 +32,7 @@ class UserRegisterController extends StateNotifier<void> {
         .then(
           (value) => navigateToAuth(),
     );
+
+    //TODO: add interaction with custom backend to store user
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../data/repositories/auth_repository.dart';
-import '../views/util/route_manager.dart';
+import '../../../../../../data/repositories/auth_repository.dart';
+import '../../util/route_manager.dart';
 
 
 class LoginController extends StateNotifier<void> {
@@ -11,15 +11,12 @@ class LoginController extends StateNotifier<void> {
         super(null);
   final AuthRepository _authRepository;
 
-  void navigateToRegister() {
-    navigatorKey.currentState!.pushReplacementNamed(Routes.register);
-  }
-
   Future<void> login(
       String email,
       String password,
       BuildContext context,
       ) async {
+    print(email.toString() + '   ' + password.toString());
     await _authRepository
         .signIn(
       email: email,

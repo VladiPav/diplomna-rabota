@@ -36,7 +36,6 @@ class AuthRepository {
   Future<void> signUp({
     required String email,
     required String password,
-    required String username,
   }) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
