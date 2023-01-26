@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:list_app/presentation/views/custom_widgets/custom_alert_dialogs/custom_error_alert_dialog.dart';
-import 'package:list_app/presentation/views/login_screen/controllers/login_screen_providers.dart';
 
-import '../../custom_widgets/custom_button.dart';
-import '../../util/route_manager.dart';
+import '../../../../providers/login_screen_providers.dart';
+import '../../custom_alert_dialogs/variants/custom_error_alert_dialog.dart';
+import '../custom_button.dart';
 
 class LoginButton extends ConsumerWidget {
   const LoginButton({

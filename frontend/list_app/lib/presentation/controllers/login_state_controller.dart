@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../data/repositories/auth_repository.dart';
-import '../../util/route_manager.dart';
+import '../views/util/route_manager.dart';
 
 
 class LoginController extends StateNotifier<void> {

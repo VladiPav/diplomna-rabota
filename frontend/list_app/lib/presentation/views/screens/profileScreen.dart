@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
-import '../custom_widgets/custom_button.dart';
+import '../custom_widgets/custom_buttons/custom_button.dart';
 import '../util/route_manager.dart';
 
 var indexProvider = StateProvider<int>((ref) => 0);

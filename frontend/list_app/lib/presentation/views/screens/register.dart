@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../themes/themes.dart';
-import '../custom_widgets/custom_button.dart';
-import '../custom_widgets/custom_text_fields/confirm_password_text_field.dart';
-import '../custom_widgets/custom_text_fields/email_text_field.dart';
-import '../custom_widgets/custom_text_fields/password_text_field.dart';
-import '../custom_widgets/custom_text_fields/username_text_field.dart';
+import '../custom_widgets/custom_buttons/custom_button.dart';
+import '../custom_widgets/custom_buttons/variants/register_button.dart';
+import '../custom_widgets/custom_text_fields/variants/confirm_password_text_field.dart';
+import '../custom_widgets/custom_text_fields/variants/email_text_field.dart';
+import '../custom_widgets/custom_text_fields/variants/password_text_field.dart';
+import '../custom_widgets/custom_text_fields/variants/username_text_field.dart';
 import '../util/route_manager.dart';
 
 class RegisterScreen extends ConsumerWidget {
@@ -44,14 +45,7 @@ class RegisterScreen extends ConsumerWidget {
                 const Padding(
                   padding: EdgeInsets.all(10),
                 ),
-                CustomButton(
-                  width: 155,
-                  height: 50,
-                  fontSize: 24,
-                  text: "Register",
-                  borderRadius: 100,
-                  func: () => {Navigator.pushReplacementNamed(context, Routes.profile)},
-                ),
+                RegisterButton(),
                 const Padding(
                   padding: EdgeInsets.only(top: 20),
                 ),

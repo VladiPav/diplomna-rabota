@@ -21,7 +21,7 @@ class CustomAlertDialog extends StatelessWidget {
     return UnfocusDetector(
       child: AlertDialog(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(30),
         ),
         actions: actions,
         backgroundColor: color,

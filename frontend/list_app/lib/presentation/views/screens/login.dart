@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:list_app/presentation/views/login_screen/widgets/login_button.dart';
 
 import '../../themes/themes.dart';
-import '../custom_widgets/custom_button.dart';
-import '../custom_widgets/custom_text_fields/email_text_field.dart';
-import '../custom_widgets/custom_text_fields/password_text_field.dart';
+import '../custom_widgets/custom_buttons/custom_button.dart';
+import '../custom_widgets/custom_buttons/variants/login_button.dart';
+import '../custom_widgets/custom_text_fields/variants/email_text_field.dart';
+import '../custom_widgets/custom_text_fields/variants/password_text_field.dart';
 import '../util/route_manager.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -32,10 +32,6 @@ class LoginScreen extends ConsumerWidget {
                 ),
                 const Padding(
                   padding: EdgeInsets.all(10),
-                ),
-                SpinKitWave(
-                  color: primaryColor,
-                  size: 60,
                 ),
                 Padding(
                   padding: EdgeInsets.all(50),

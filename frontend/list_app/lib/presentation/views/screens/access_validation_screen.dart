@@ -4,7 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:list_app/presentation/providers/auth_state_provider.dart';
 import 'package:list_app/presentation/providers/repository_providers.dart';
 import 'package:list_app/presentation/themes/themes.dart';
-import 'package:list_app/presentation/views/login_screen/login.dart';
+
+import 'login.dart';
 
 
 class AccessValidator extends ConsumerWidget {
