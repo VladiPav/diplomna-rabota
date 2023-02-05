@@ -1,6 +1,7 @@
 import firebase from 'firebase-admin';
 import { Request, Response, NextFunction } from "express";
-import { CustomError, HTTPStatusCode, InternalErrorMessage } from 'src/types/error';
+import { CustomError, HTTPStatusCode, InternalErrorMessage } from '../types/error';
+import prisma from '../services/prisma-service';
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -16,7 +17,13 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
             throw error;
         }
 
-        const decodedToken = firebase.auth().verifyIdToken(token);
+        const decodedToken = await firebase.auth().verifyIdToken(token);
+
+        res.locals.currentUser = prisma.user.findFirst({
+            where: {
+                firebaseId: decodedToken.uid
+            },
+        },);
 
         next()
 

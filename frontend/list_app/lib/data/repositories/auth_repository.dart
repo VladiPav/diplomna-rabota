@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
@@ -56,6 +55,7 @@ class AuthRepository {
       }
     }
   }
+
   User? getCurrentUser() => _firebaseAuth.currentUser;
 
   Future<void> signOut() async {
@@ -65,5 +65,4 @@ class AuthRepository {
   Future<void> sendPasswordResetLink(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
-
 }

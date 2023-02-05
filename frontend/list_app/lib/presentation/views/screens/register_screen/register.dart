@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../themes/themes.dart';
+import '../../../util/route_manager.dart';
 import 'widgets/password_text_field.dart';
 import 'widgets/register_button.dart';
 import 'widgets/confirm_password_text_field.dart';
 import 'widgets/email_text_field.dart';
 import 'widgets/username_text_field.dart';
-import '../../util/route_manager.dart';
 
 class RegisterScreen extends ConsumerWidget {
   const RegisterScreen({Key? key}) : super(key: key);

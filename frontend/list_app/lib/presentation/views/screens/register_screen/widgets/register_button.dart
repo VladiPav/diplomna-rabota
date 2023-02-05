@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:list_app/presentation/views/custom_widgets/custom_error_alert_dialog.dart';
 import 'package:list_app/presentation/views/screens/register_screen/register_providers.dart';
 
-import '../../../util/route_manager.dart';
 import '../../../custom_widgets/custom_button.dart';
 
 class RegisterButton extends ConsumerWidget {

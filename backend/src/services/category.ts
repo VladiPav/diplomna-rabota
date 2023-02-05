@@ -1,5 +1,5 @@
 import { Category } from "@prisma/client";
-import { HTTPStatusCode, CustomError, InternalErrorMessage } from "src/types/error";
+import { HTTPStatusCode, CustomError, InternalErrorMessage } from "../types/error";
 import prisma from "./prisma-service";
 
 const createCategory = async (name: string): Promise<Category> => {

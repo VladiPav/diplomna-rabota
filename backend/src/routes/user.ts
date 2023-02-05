@@ -1,12 +1,17 @@
 import { Router } from "express";
-import userController from "../controllers/user.js"
+import { userController } from "../controllers/user"
+import { relationshipRouter } from "./relationship";
+
 
 const router = Router();
 
+router.use(relationshipRouter);
+
 router.get("/", userController.getAllUsers);
 
-router.get("/", userController.getUserById);
+router.get("/:id", userController.getUserById);
 
-router.post("/", userController.createUser);
+//router.post("/", userController.createUser);
 
-export  const userRouter = router;
+
+export const userRouter = router;

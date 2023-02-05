@@ -1,5 +1,5 @@
 import { Element } from "@prisma/client";
-import { CustomError, HTTPStatusCode, InternalErrorMessage } from "src/types/error";
+import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
 import prisma from "./prisma-service";
 
 const createElement = async (name: string, categoryId: string): Promise<Element> => {

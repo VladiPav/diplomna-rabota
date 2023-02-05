@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../screens/access_validation/access_validation_screen.dart';
-import '../screens/login_screen/login.dart';
-import '../screens/profile_screen/profileScreen.dart';
-import '../screens/register_screen/register.dart';
+
+import '../views/screens/access_validation/access_validation_screen.dart';
+import '../views/screens/login_screen/login.dart';
+import '../views/screens/profile_screen/profileScreen.dart';
+import '../views/screens/register_screen/register.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 final scaffoldKey = GlobalKey<ScaffoldMessengerState>();

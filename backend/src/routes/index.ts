@@ -3,8 +3,8 @@ import { Request, Response } from "express";
 import { userRouter } from "./user";
 const router = Router();
 
-router.get("/hello", (req: Request, res: Response) => {
-    res.send("How are you doing?");
+router.get("/test", (req: Request, res: Response) => {
+    res.send("Working as intended");
 })
 
 router.use("/users", userRouter);

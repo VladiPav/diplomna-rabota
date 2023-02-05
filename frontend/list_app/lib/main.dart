@@ -1,15 +1,18 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:list_app/firebase_options.dart';
-import 'package:list_app/presentation/themes/themes.dart';
 
-import 'presentation/views/util/route_manager.dart';
+import 'firebase_options.dart';
+import 'presentation/themes/themes.dart';
+import 'presentation/util/route_manager.dart';
 
-void main() async {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await dotenv.load();
 
   runApp(
     const ProviderScope(child: ListApp()),
@@ -17,11 +20,10 @@ void main() async {
 }
 
 class ListApp extends StatelessWidget {
-  const ListApp({Key? key}) : super(key: key);
+  const ListApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context) => MaterialApp(
       title: 'List App',
       scaffoldMessengerKey: scaffoldKey,
       navigatorKey: navigatorKey,
@@ -30,5 +32,4 @@ class ListApp extends StatelessWidget {
       onGenerateRoute: AppRouter.generateRoute,
       theme: getThemeData(),
     );
-  }
 }
