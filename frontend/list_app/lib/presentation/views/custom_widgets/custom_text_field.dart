@@ -33,7 +33,6 @@ class CustomTextField extends StatelessWidget {
         const Padding(padding: EdgeInsets.only(bottom: 10)),
         Material(
           borderRadius: BorderRadius.circular(30),
-          elevation: 5,
           color: fieldColor,
           child: TextField(
             onChanged: func,

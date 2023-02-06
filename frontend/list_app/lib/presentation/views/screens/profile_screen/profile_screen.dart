@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../themes/themes.dart';
 import '../../../util/route_manager.dart';
 import '../../custom_widgets/custom_alert_dialog.dart';
+import '../../custom_widgets/custom_bottom_nav_bar.dart';
 import '../../custom_widgets/custom_button.dart';
 import 'profile_providers.dart';
 
@@ -39,6 +40,19 @@ class ProfileScreen extends ConsumerWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: CustomButton(
+                    width: 155,
+                    height: 50,
+                    fontSize: 24,
+                    text: 'Following',
+                    borderRadius: 100,
+                    func: () => {
+                      Navigator.pushReplacementNamed(context, Routes.following)
+                    },
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: CustomButton(
@@ -85,6 +99,7 @@ class ProfileScreen extends ConsumerWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const CustomNavBar(),
     );
   }
 }

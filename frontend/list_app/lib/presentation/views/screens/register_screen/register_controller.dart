@@ -27,9 +27,6 @@ class RegisterController extends StateNotifier<void> {
       password: password,
     )
         .then(
-          (value) => _authRepository.getCurrentUser()!.sendEmailVerification(),
-    )
-        .then(
           (value) => navigateToAuth(),
     );
 
