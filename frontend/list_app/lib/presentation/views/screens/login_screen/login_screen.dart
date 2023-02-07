@@ -10,19 +10,17 @@ class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Padding(
                   padding: EdgeInsets.all(10),
                 ),
                 const Text(
-                  "ListApp",
+                  'ListApp',
                   style: TextStyle(
                     fontSize: 50,
                   ),
@@ -45,14 +43,14 @@ class LoginScreen extends ConsumerWidget {
                 const Padding(
                   padding: EdgeInsets.all(10),
                 ),
-                LoginButton(),
+                const LoginButton(),
                 const Padding(
                   padding: EdgeInsets.only(top: 20),
                 ),
                 const Text("Don't have an account?"),
                 InkWell(
                   child: const Text(
-                    "Register",
+                    'Register',
                     style: TextStyle(
                         color: primaryColor, fontWeight: FontWeight.w600),
                   ),
@@ -65,5 +63,4 @@ class LoginScreen extends ConsumerWidget {
         ),
       ),
     );
-  }
 }
