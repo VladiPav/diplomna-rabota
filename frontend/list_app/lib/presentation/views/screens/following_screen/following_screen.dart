@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../themes/themes.dart';
-import '../../custom_widgets/custom_text_field.dart';
+import './following_provider.dart';
 
 final data = [
   Row(
@@ -40,6 +41,8 @@ class FollowingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final followers = ref.watch(followersProvider);
+
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -100,16 +103,36 @@ class FollowingScreen extends ConsumerWidget {
                         Expanded(
                           child: TabBarView(
                             children: [
-                              ListView.builder(
-                                itemCount: data.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  return data[index];
-                                },
+                              followers.when(
+                                data: (followers) => ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: followers.length ?? 0,
+                                  itemBuilder: (context, index) => Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      CircleAvatar(),
+                                      Text(followers[index].username),
+                                    ],
+                                  ),
+                                ),
+                                error: (error, stacktrace) =>
+                                    Text('Error: $error'),
+                                loading: () => Center(
+                                  child: SpinKitWave(
+                                    color: primaryColor,
+                                  ),
+                                ),
                               ),
                               ListView.builder(
                                 itemCount: data.length ?? 0,
                                 itemBuilder: (context, index) {
-                                  return data[index];
+                                  final data2 = [
+                                    Text('a'),
+                                    Text('b'),
+                                    Text('c'),
+                                    Text('d')
+                                  ];
+                                  return data2[index];
                                 },
                               )
                             ],

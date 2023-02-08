@@ -14,7 +14,7 @@ class ApiService {
       AuthInterceptor(),
     );
 
-  Future<List> getFollowers() async {
+  Future<List<User>> getFollowers() async {
     try {
       final followers = await _dio.get(
         '/users/followers',

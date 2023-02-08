@@ -17,9 +17,10 @@ class UserRepo {
 
   }
 
-  // Future<List<User>> getFollowers() async {
-  //   final response = await _api.getFollowers();
-  //   return response;
-  // }
+  Future<List<User>> getFollowers() async {
+    final response = await _api.getFollowers();
+    print('RESPONSE: $response');
+    return response;
+  }
 
 }
