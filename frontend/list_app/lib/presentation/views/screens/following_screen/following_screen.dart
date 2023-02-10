@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../themes/themes.dart';
 import './following_provider.dart';
+import 'widgets/search_field.dart';
 
 final data = [
   Row(
@@ -42,109 +43,104 @@ class FollowingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final followers = ref.watch(followersProvider);
+    final following = ref.watch(followingProvider);
 
     return DefaultTabController(
       length: 2,
-      child: Scaffold(
-        body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
+      child: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(color: primaryColor, width: 3),
+                ),
+                child: SearchField(),
+              ),
+            ),
+            Expanded(
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: primaryColor, width: 3),
+                    color: accentColor,
                   ),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Find user...',
-                      enabledBorder: InputBorder.none,
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      filled: false,
-                      contentPadding: const EdgeInsets.only(left: 20),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      color: accentColor,
-                    ),
-                    child: Column(
-                      children: [
-                        TabBar(
-                          tabs: [
-                            Tab(
-                              child: Container(
-                                child: Text(
-                                  'Followers',
+                  child: Column(
+                    children: [
+                      TabBar(
+                        tabs: [
+                          Tab(
+                            text: 'Following',
+                          ),
+                          Tab(
+                            text: 'Followers',
+                          ),
+                        ],
+                        overlayColor: MaterialStateProperty.all<Color>(
+                          Colors.transparent,
+                        ),
+                        indicatorColor: primaryColor,
+                        labelColor: primaryColor,
+                        labelStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w900),
+                        unselectedLabelStyle: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            following.when(
+                              data: (following) => ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: following.length ?? 0,
+                                itemBuilder: (context, index) => Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(),
+                                    Text(following[index].username),
+                                  ],
+                                ),
+                              ),
+                              error: (error, stacktrace) =>
+                                  Text('Error: $error'),
+                              loading: () => Center(
+                                child: SpinKitWave(
+                                  color: primaryColor,
                                 ),
                               ),
                             ),
-                            Tab(
-                              child: Text(
-                                'Followers',
+                            followers.when(
+                              data: (followers) => ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: followers.length ?? 0,
+                                itemBuilder: (context, index) => Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    CircleAvatar(),
+                                    Text(followers[index].username),
+                                  ],
+                                ),
+                              ),
+                              error: (error, stacktrace) =>
+                                  Text('Error: $error'),
+                              loading: () => Center(
+                                child: SpinKitWave(
+                                  color: primaryColor,
+                                ),
                               ),
                             ),
                           ],
-                          overlayColor: MaterialStateProperty.all<Color>(
-                            Colors.transparent,
-                          ),
-                          indicatorColor: primaryColor,
-                          dividerColor: accentColor,
-                          labelColor: primaryColor,
                         ),
-                        Expanded(
-                          child: TabBarView(
-                            children: [
-                              followers.when(
-                                data: (followers) => ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: followers.length ?? 0,
-                                  itemBuilder: (context, index) => Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(),
-                                      Text(followers[index].username),
-                                    ],
-                                  ),
-                                ),
-                                error: (error, stacktrace) =>
-                                    Text('Error: $error'),
-                                loading: () => Center(
-                                  child: SpinKitWave(
-                                    color: primaryColor,
-                                  ),
-                                ),
-                              ),
-                              ListView.builder(
-                                itemCount: data.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  final data2 = [
-                                    Text('a'),
-                                    Text('b'),
-                                    Text('c'),
-                                    Text('d')
-                                  ];
-                                  return data2[index];
-                                },
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,10 +1,17 @@
-import firebase from 'firebase-admin';
+import { initializeApp } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 import { Request, Response, NextFunction } from "express";
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from '../types/error';
-import prisma from '../services/prisma-service';
+import { prismaService } from '../services/prisma-service';
 
-const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
+
+const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
+
+        if (req.path == '/users' && req.method == 'POST') {
+            return next();
+        }
+
         const header = req.headers.authorization;
         const token = header?.split(' ')[1];
 
@@ -14,26 +21,29 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
                 message: "No auth token",
                 internalMessage: InternalErrorMessage.BadRequest,
             };
-            throw error;
+            throw new CustomError(error);
         }
 
-        const decodedToken = await firebase.auth().verifyIdToken(token);
 
-        res.locals.currentUser = prisma.user.findFirst({
+        const decodedToken = await getAuth().verifyIdToken(token);
+        // console.log(decodedToken);
+
+        res.locals.currentUser = await prismaService.user.findFirst({
             where: {
                 firebaseId: decodedToken.uid
             },
         },);
+        console.log(res.locals.currentUser);
 
-        next()
+        return next()
 
     } catch (error) {
         if (error instanceof CustomError) {
-            res.send(error).status(error.statusCode);
+            res.status(error.statusCode).send(error.message);
         } else {
-            res.send(error).status(HTTPStatusCode.InternalServerError);
+            res.status(HTTPStatusCode.InternalServerError).send(error);
         }
     }
 }
 
-export const auth = { verifyToken };
+export const authMiddleware = verifyToken;

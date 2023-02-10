@@ -25,11 +25,11 @@ class RegisterController extends StateNotifier<void> {
         .signUp(
       email: email,
       password: password,
+      username: username,
     )
         .then(
           (value) => navigateToAuth(),
     );
 
-    //TODO: add interaction with custom backend to store user
   }
 }

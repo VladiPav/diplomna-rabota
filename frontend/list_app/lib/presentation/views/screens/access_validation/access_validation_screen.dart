@@ -6,6 +6,7 @@ import 'package:list_app/presentation/common_providers/repository_providers.dart
 import 'package:list_app/presentation/themes/themes.dart';
 import 'package:list_app/presentation/views/screens/profile_screen/profile_screen.dart';
 
+import '../home_screen.dart';
 import '../login_screen/login_screen.dart';
 
 
@@ -24,7 +25,7 @@ class AccessValidator extends ConsumerWidget {
           if(data == null) {
             return const LoginScreen();
           }
-          return const ProfileScreen();
+          return const HomeScreen();
       },
       error: (e, s) => const LoginScreen(),
       loading: () => const Scaffold(

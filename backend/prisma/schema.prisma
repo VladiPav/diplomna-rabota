@@ -40,7 +40,6 @@ model Element {
 }
 
 model CollectionElement {
-  id           String     @id @default(uuid()) @db.VarChar(256)
   collection   Collection @relation(fields: [collectionId], references: [id])
   collectionId String     @map("collection_id")
   element      Element    @relation("elements", fields: [elementId], references: [id])
@@ -48,6 +47,7 @@ model CollectionElement {
 
   position String
 
+  @@unique([collectionId, elementId], name: "id")
   @@map("collection_element")
 }
 

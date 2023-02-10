@@ -14,7 +14,6 @@ class UserRepo {
   }) : _api = api;
 
   Future<void> createUser() async {
-
   }
 
   Future<List<User>> getFollowers() async {
@@ -22,5 +21,15 @@ class UserRepo {
     print('RESPONSE: $response');
     return response;
   }
+
+  Future<List<User>> getFollowing() async {
+    final response = await _api.getFollowing();
+    print('RESPONSE: $response');
+    return response;
+  }
+
+  // Future<User> getUserById(String id) async {
+  //   return User();
+  // }
 
 }

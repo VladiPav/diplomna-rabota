@@ -1,10 +1,10 @@
 import { Category } from "@prisma/client";
 import { HTTPStatusCode, CustomError, InternalErrorMessage } from "../types/error";
-import prisma from "./prisma-service";
+import { prismaService } from "./prisma-service";
 
 const createCategory = async (name: string): Promise<Category> => {
     try {
-        const categoryAlreadyExists = await prisma.category.findFirst({
+        const categoryAlreadyExists = await prismaService.category.findFirst({
             where: {
                 name,
             }
@@ -19,7 +19,7 @@ const createCategory = async (name: string): Promise<Category> => {
             throw new CustomError(error);
         }
 
-        const category = prisma.category.create({
+        const category = prismaService.category.create({
             data: {
                 name,
             }
@@ -33,7 +33,7 @@ const createCategory = async (name: string): Promise<Category> => {
 
 const getAllCategories = (name?: string): Promise<Category[]> => {
     try {
-        const categories = prisma.category.findMany({
+        const categories = prismaService.category.findMany({
             where: {
                 name: {
                     contains: name

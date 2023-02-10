@@ -9,7 +9,7 @@ router.delete("/:id/unfollow", relationshipController.unfollow);
 
 router.get("/followers", relationshipController.getFollowingUsers);
 
-router.get("/followeing", relationshipController.getFollowedUsers);
+router.get("/following", relationshipController.getFollowedUsers);
 
 
 export const relationshipRouter = router;

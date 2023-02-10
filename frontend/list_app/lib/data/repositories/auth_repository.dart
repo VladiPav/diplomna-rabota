@@ -1,9 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../api/api_service.dart';
 
 class AuthRepository {
   final FirebaseAuth _firebaseAuth;
+  final ApiService api;
 
-  AuthRepository(this._firebaseAuth);
+  AuthRepository(
+    this._firebaseAuth,
+    this.api,
+  );
 
   Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
 
@@ -35,24 +42,30 @@ class AuthRepository {
   Future<void> signUp({
     required String email,
     required String password,
+    required String username,
   }) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
+      final firebaseResponse =
+          await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      final firebaseId = firebaseResponse.user?.uid;
+
+      await api.createUser(email, username, firebaseId!);
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case 'email-already-in-use':
-          throw 'There is already a registration made with this email.';
+          throw 'Email is already in use.';
         case 'invalid-email':
-          throw 'The email you have entered is not valid.';
+          throw 'Invalid email';
         case 'weak-password':
           throw 'The password you have entered is too weak, it must be at least 6 characters.';
-
         default:
-          throw 'An undefined Error happened.';
+          throw 'An undefined Error occured.';
       }
+    } on DioError catch (e) {
+      throw e.response?.data;
     }
   }
 

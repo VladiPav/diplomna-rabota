@@ -1,11 +1,11 @@
 import { Category, Relationship, User } from "@prisma/client";
 import { HTTPStatusCode, CustomError, InternalErrorMessage } from "../types/error";
-import prisma from "./prisma-service";
+import { prismaService } from "./prisma-service";
 
 const follow = async (follower: User, followedId: string): Promise<Relationship> => {
     try {
 
-        const followed = await prisma.user.findFirst({
+        const followed = await prismaService.user.findFirst({
             where: {
                 id: followedId,
             }
@@ -20,7 +20,7 @@ const follow = async (follower: User, followedId: string): Promise<Relationship>
             throw new CustomError(error);
         }
 
-        const alreadyFollowing = await prisma.relationship.findFirst({
+        const alreadyFollowing = await prismaService.relationship.findFirst({
             where: {
                 followed,
                 follower,
@@ -36,7 +36,7 @@ const follow = async (follower: User, followedId: string): Promise<Relationship>
             throw new CustomError(error);
         }
 
-        const relationship = prisma.relationship.create({
+        const relationship = await prismaService.relationship.create({
             data: {
                 followed: {
                     connect: followed,
@@ -57,7 +57,7 @@ const follow = async (follower: User, followedId: string): Promise<Relationship>
 const unfollow = async (follower: User, followedId: string): Promise<void> => {
     try {
 
-        const followed = await prisma.user.findFirst({
+        const followed = await prismaService.user.findFirst({
             where: {
                 id: followedId,
             }
@@ -72,7 +72,7 @@ const unfollow = async (follower: User, followedId: string): Promise<void> => {
             throw new CustomError(error);
         }
 
-        const alreadyFollowing = await prisma.relationship.findFirst({
+        const alreadyFollowing = await prismaService.relationship.findFirst({
             where: {
                 followed,
                 follower,
@@ -88,7 +88,7 @@ const unfollow = async (follower: User, followedId: string): Promise<void> => {
             throw new CustomError(error);
         }
 
-        prisma.relationship.delete({
+        await prismaService.relationship.delete({
             where: alreadyFollowing
         });
 
@@ -98,15 +98,26 @@ const unfollow = async (follower: User, followedId: string): Promise<void> => {
 }
 
 const getFollowedUsers = async (user: User): Promise<Relationship[]> => {
-    return prisma.relationship.findMany({
-        where: {
-            followerId: user.id,
-        },
-    });
+    try {
+        const followed = await prismaService.relationship.findMany({
+            where: {
+                followerId: user.id,
+            },
+            include: {
+                followed: true,
+            }
+        });
+        console.log(followed);
+
+        return followed;
+
+    } catch (error) {
+        throw error;
+    }
 }
 
 const getFollowingUsers = async (user: User): Promise<Relationship[]> => {
-    return prisma.relationship.findMany({
+    return await prismaService.relationship.findMany({
         where: {
             followedId: user.id,
         },

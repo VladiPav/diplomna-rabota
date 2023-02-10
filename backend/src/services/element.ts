@@ -1,11 +1,11 @@
 import { Element } from "@prisma/client";
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
-import prisma from "./prisma-service";
+import { prismaService } from "./prisma-service";
 
 const createElement = async (name: string, categoryId: string): Promise<Element> => {
     try {
 
-        const category = await prisma.category.findFirst({
+        const category = await prismaService.category.findFirst({
             where: {
                 id: categoryId,
             }
@@ -20,7 +20,7 @@ const createElement = async (name: string, categoryId: string): Promise<Element>
             throw new CustomError(error);
         }
 
-        const elementAlreadyExists = await prisma.element.findFirst({
+        const elementAlreadyExists = await prismaService.element.findFirst({
             where: {
                 name,
                 category,
@@ -36,7 +36,7 @@ const createElement = async (name: string, categoryId: string): Promise<Element>
             throw new CustomError(error);
         }
 
-        const element = prisma.element.create({
+        const element = prismaService.element.create({
             data: {
                 name,
                 category: {

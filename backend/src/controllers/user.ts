@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import { userService } from "../services/user"
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
-
-const prisma = new PrismaClient();
 
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -22,13 +19,13 @@ const createUser = async (req: Request, res: Response) => {
       throw new CustomError(error);
     }
 
-    const user = userService.createUser({ email, username, firebaseId });
+    const user = await userService.createUser({ email, username, firebaseId });
 
-    res.json(user);
+    res.send(user);
 
   } catch (e) {
     if (e instanceof CustomError) {
-      res.send(e).status(e.statusCode);
+      res.status(e.statusCode).send(e.message);
     } else {
       res.send(e).status(HTTPStatusCode.InternalServerError);
     }
@@ -37,7 +34,29 @@ const createUser = async (req: Request, res: Response) => {
 }
 
 const getAllUsers = async (req: Request, res: Response) => {
-  userService.getAllUsers();
+  try {
+    const { username } = req.query;
+
+    if (typeof username !== 'string' && typeof username !== 'undefined') {
+      const error = {
+        statusCode: HTTPStatusCode.BadRequest,
+        message: 'Invalid query parameter "username"',
+        internalMessage: InternalErrorMessage.BadRequest,
+      };
+      throw new CustomError(error);
+    }
+
+    const result = await userService.getAllUsers(res.locals.currentUser, username);
+
+    res.send(result);
+
+  } catch (e) {
+    if (e instanceof CustomError) {
+      res.status(e.statusCode).send(e.message);
+    } else {
+      res.status(HTTPStatusCode.InternalServerError).send(e);
+    }
+  }
 }
 
 const getUserById = async (req: Request, res: Response) => {
