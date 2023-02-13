@@ -8,17 +8,12 @@ initializeApp();
 
 const app: Express = express();
 
-const originalSend = app.response.send;
-
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 morganBody(app);
 
-
 app.use('/images', express.static('images'));
-
-
 
 app.use("/", router);
 

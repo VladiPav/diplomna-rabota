@@ -1,14 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../data/repositories/user_repository.dart';
 import '../../../../models/user_model.dart';
-import '../../../common_providers/apiServiceProvider.dart';
+import '../../../common_providers/api_service_provider.dart';
 
 final followersProvider = FutureProvider<List<User>> ((ref) async {
-  return UserRepo(api: ref.read(apiProvider)).getFollowers();
+  return UserRepository(api: ref.read(apiProvider)).getFollowers();
 },);
 
 final followingProvider = FutureProvider<List<User>> ((ref) async {
-  return UserRepo(api: ref.read(apiProvider)).getFollowing();
+  return UserRepository(api: ref.read(apiProvider)).getFollowing();
 },);
 
 final searchFieldControllerProvider = StateProvider.autoDispose<String>(

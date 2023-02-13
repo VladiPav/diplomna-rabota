@@ -78,6 +78,17 @@ class ApiService {
     }
   }
 
+  Future<User> getCurrentUser() async {
+    try {
+      final result = await _dio.get(
+        '/users/me',
+      );
+      return User.fromJson(result as Map<String, dynamic>);
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
   // Future<User> getUserById(String id) async {
   //   try {
   //     final result = await _dio.get(

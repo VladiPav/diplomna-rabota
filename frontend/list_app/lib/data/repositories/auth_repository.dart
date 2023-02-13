@@ -69,8 +69,6 @@ class AuthRepository {
     }
   }
 
-  User? getCurrentUser() => _firebaseAuth.currentUser;
-
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }

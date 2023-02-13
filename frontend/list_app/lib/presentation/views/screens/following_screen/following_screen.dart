@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../themes/themes.dart';
 import './following_provider.dart';
+import 'util/custom_search_delegate.dart';
 import 'widgets/search_field.dart';
 
 final data = [
@@ -57,7 +58,15 @@ class FollowingScreen extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(color: primaryColor, width: 3),
                 ),
-                child: SearchField(),
+                child: IconButton(
+                  icon: const Icon(Icons.search_rounded),
+                  onPressed: () {
+                    showSearch(
+                      context: context,
+                      delegate: CustomSearchDelegate(),
+                    );
+                  },
+                ),
               ),
             ),
             Expanded(

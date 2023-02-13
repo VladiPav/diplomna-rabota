@@ -5,6 +5,7 @@ import '../views/screens/following_screen/following_screen.dart';
 import '../views/screens/home_screen.dart';
 import '../views/screens/login_screen/login_screen.dart';
 import '../views/screens/profile_screen/profile_screen.dart';
+import '../views/screens/profile_screen/widgets/profile_widget.dart';
 import '../views/screens/register_screen/register_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -15,6 +16,7 @@ class Routes {
   static const String login = 'login';
   static const String register = 'register';
   static const String home = 'home';
+  static const String profile = 'profile';
 }
 
 
@@ -36,6 +38,10 @@ class AppRouter {
       case Routes.home:
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
+        );
+      case Routes.profile:
+        return MaterialPageRoute(
+          builder: (_) => const ProfileScreen(),
         );
       default:
         throw const FormatException('Route not found!');

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../common_providers/current_user_provider.dart';
 import '../../themes/themes.dart';
 import 'following_screen/following_screen.dart';
-import 'profile_screen/profile_screen.dart';
+import 'profile_screen/widgets/profile_widget.dart';
 
 final navbarIndexProvider = StateProvider<int>((ref) => 0);
 
@@ -14,12 +16,23 @@ class HomeScreen extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) => Scaffold(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(currentUserProvider);
+
+    return Scaffold(
       body: IndexedStack(
         index: ref.watch(navbarIndexProvider),
         children: [
           FollowingScreen(),
-          ProfileScreen(),
+          currentUser.when(
+            data: (currentUser) => ProfileWidget(user: currentUser),
+            error: (error, stacktrace) => Text('Error: $error'),
+            loading: () => Center(
+              child: SpinKitWave(
+                color: primaryColor,
+              ),
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: Container(
@@ -34,7 +47,6 @@ class HomeScreen extends ConsumerWidget {
                 icon: Icon(Icons.search_rounded),
                 label: 'Search',
                 backgroundColor: primaryColor,
-
               ),
               const BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle),
@@ -54,4 +66,5 @@ class HomeScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
 }

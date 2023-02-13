@@ -6,29 +6,34 @@ import 'package:dio/dio.dart';
 import '../../models/user_model.dart';
 import '../api/api_service.dart';
 
-class UserRepo {
-  final ApiService _api;
+class UserRepository {
+  final ApiService api;
 
-  UserRepo({
-      required ApiService api,
-  }) : _api = api;
+  UserRepository({
+      required this.api,
+  });
 
   Future<void> createUser() async {
   }
 
   Future<List<User>> getFollowers() async {
-    final response = await _api.getFollowers();
+    final response = await api.getFollowers();
     print('RESPONSE: $response');
     return response;
   }
 
   Future<List<User>> getFollowing() async {
-    final response = await _api.getFollowing();
+    final response = await api.getFollowing();
     print('RESPONSE: $response');
     return response;
   }
 
-  // Future<User> getUserById(String id) async {
+  Future<User> getCurrentUser() => api.getCurrentUser();
+
+  Future<List<User>> searchUser(query) => api.searchUser(query);
+
+
+// Future<User> getUserById(String id) async {
   //   return User();
   // }
 

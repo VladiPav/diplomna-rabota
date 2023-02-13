@@ -33,6 +33,19 @@ const createUser = async (req: Request, res: Response) => {
 
 }
 
+const uploadProfileImage = async (req: Request, res: Response) => {
+  try {
+    res.status(HTTPStatusCode.Created).json(req.file?.path);
+  }
+  catch (e) {
+    if (e instanceof CustomError) {
+      res.status(e.statusCode).send(e.message);
+    } else {
+      res.status(HTTPStatusCode.InternalServerError).send(e);
+    }
+  }
+}
+
 const getAllUsers = async (req: Request, res: Response) => {
   try {
     const { username } = req.query;
@@ -63,13 +76,28 @@ const getUserById = async (req: Request, res: Response) => {
 
 }
 
+const getCurrentUser = async (req: Request, res: Response) => {
+  try {
+    return res.locals.currentUser;
+  } catch (e) {
+    if (e instanceof CustomError) {
+      res.status(e.statusCode).send(e.message);
+    } else {
+      res.status(HTTPStatusCode.InternalServerError).send(e);
+    }
+  }
+}
+
 const deleteUser = async (req: Request, res: Response) => {
 
 }
 
+
 export const userController = {
   createUser,
+  uploadProfileImage,
   getAllUsers,
   getUserById,
-  deleteUser
+  getCurrentUser,
+  deleteUser,
 }
