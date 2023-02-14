@@ -18,13 +18,11 @@ class UserRepository {
 
   Future<List<User>> getFollowers() async {
     final response = await api.getFollowers();
-    print('RESPONSE: $response');
     return response;
   }
 
   Future<List<User>> getFollowing() async {
     final response = await api.getFollowing();
-    print('RESPONSE: $response');
     return response;
   }
 
@@ -32,9 +30,14 @@ class UserRepository {
 
   Future<List<User>> searchUser(query) => api.searchUser(query);
 
+  Future<void> uploadProfileImage(file) => api.uploadImage(file);
 
+  Future<bool> isFollowing(id) => api.isFollowing(id);
 // Future<User> getUserById(String id) async {
   //   return User();
   // }
+
+  Future<void> follow(id) => api.follow(id);
+  Future<void> unfollow(id) => api.unfollow(id);
 
 }

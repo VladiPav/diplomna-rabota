@@ -53,21 +53,60 @@ class FollowingScreen extends ConsumerWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: primaryColor, width: 3),
+              child: OutlinedButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.search_rounded,
+                      color: Colors.black,
+                    ),
+                    Text(
+                      'Search user...',
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
                 ),
-                child: IconButton(
-                  icon: const Icon(Icons.search_rounded),
-                  onPressed: () {
-                    showSearch(
-                      context: context,
-                      delegate: CustomSearchDelegate(),
-                    );
-                  },
+                style: ButtonStyle(
+                  overlayColor: MaterialStateProperty.all(
+                    Colors.transparent,
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  side: MaterialStateProperty.all(
+                    BorderSide(
+                      width: 3,
+                      color: primaryColor,
+                    ),
+                  ),
                 ),
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate(),
+                  );
+                },
               ),
+              // child: Container(
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(30),
+              //     border: Border.all(color: primaryColor, width: 3),
+              //   ),
+              //   child: IconButton(
+              //     icon: const Icon(Icons.search_rounded),
+              //     onPressed: () {
+              //       showSearch(
+              //         context: context,
+              //         delegate: CustomSearchDelegate(),
+              //       );
+              //     },
+              //   ),
+              // ),
             ),
             Expanded(
               child: Padding(

@@ -39,10 +39,14 @@ const follow = async (follower: User, followedId: string): Promise<Relationship>
         const relationship = await prismaService.relationship.create({
             data: {
                 followed: {
-                    connect: followed,
+                    connect: {
+                        id: followed.id,
+                    },
                 },
                 follower: {
-                    connect: follower,
+                    connect: {
+                        id: follower.id,
+                    },
                 },
             }
         });
@@ -107,8 +111,6 @@ const getFollowedUsers = async (user: User): Promise<Relationship[]> => {
                 followed: true,
             }
         });
-        console.log(followed);
-
         return followed;
 
     } catch (error) {
@@ -124,6 +126,23 @@ const getFollowingUsers = async (user: User): Promise<Relationship[]> => {
     });
 }
 
+const isFollowing = async (followerId: string, followedId: string): Promise<boolean> => {
+    try {
+        const relationship = await prismaService.relationship.findFirst({
+            where: {
+                followerId: followerId,
+                followedId: followedId,
+            }
+        });
+        if (relationship) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 
 export const relationshipService = {
@@ -131,4 +150,5 @@ export const relationshipService = {
     unfollow,
     getFollowedUsers,
     getFollowingUsers,
+    isFollowing,
 }

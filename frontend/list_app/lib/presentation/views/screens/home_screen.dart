@@ -18,7 +18,6 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
-
     return Scaffold(
       body: IndexedStack(
         index: ref.watch(navbarIndexProvider),

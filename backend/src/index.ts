@@ -17,6 +17,7 @@ app.use('/images', express.static('images'));
 
 app.use("/", router);
 
+app.use('*', (req, res) => res.status(404).send('Not Found'));
 
 const port: number = 8080;
 

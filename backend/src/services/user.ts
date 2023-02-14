@@ -56,6 +56,7 @@ const getAllUsers = async (currentUser: User, search?: string) => {
       where: {
         username: {
           contains: search,
+          mode: 'insensitive',
         },
         NOT: {
           id: currentUser.id,
@@ -95,9 +96,22 @@ const getUserById = async (id: string) => {
   }
 }
 
+const updateProfileImage = async (user: User, imagePath: string) => {
+  const user2 = await prismaService.user.update({
+    where: {
+      id: user.id
+    },
+    data: {
+      profileImagePath: imagePath
+    }
+  });
+  console.log(user2);
+}
+
 
 export const userService = {
   createUser,
   getAllUsers,
   getUserById,
+  updateProfileImage,
 }

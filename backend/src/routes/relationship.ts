@@ -3,6 +3,8 @@ import { relationshipController } from "../controllers/relationship";
 
 const router = Router();
 
+router.get('/:id/following', relationshipController.isFollowing);
+
 router.post("/:id/follow", relationshipController.follow);
 
 router.delete("/:id/unfollow", relationshipController.unfollow);

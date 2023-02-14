@@ -3,12 +3,12 @@ import { relationshipService } from '../services/relationship';
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
 
 
-const follow = (req: Request, res: Response) => {
+const follow = async (req: Request, res: Response) => {
     try {
-
+        console.log("TRYING TO FOLLOW");
         const followedId = req.params.id;
 
-        relationshipService.follow(res.locals.currentUser, followedId);
+        const result = await relationshipService.follow(res.locals.currentUser, followedId);
 
 
     } catch (e) {
@@ -21,7 +21,7 @@ const follow = (req: Request, res: Response) => {
 }
 
 
-const unfollow = (req: Request, res: Response) => {
+const unfollow = async (req: Request, res: Response) => {
     try {
 
         const followedId = req.params.id;
@@ -40,9 +40,6 @@ const unfollow = (req: Request, res: Response) => {
 const getFollowedUsers = async (req: Request, res: Response) => {
     try {
         const followedUsers = await relationshipService.getFollowedUsers(res.locals.currentUser);
-
-        console.log(followedUsers);
-
         res.json(followedUsers);
     } catch (e) {
         if (e instanceof CustomError) {
@@ -56,7 +53,6 @@ const getFollowedUsers = async (req: Request, res: Response) => {
 const getFollowingUsers = async (req: Request, res: Response) => {
     try {
         const followingUsers = await relationshipService.getFollowingUsers(res.locals.currentUser);
-        console.log(followingUsers);
         res.json(followingUsers);
 
     } catch (e) {
@@ -68,9 +64,34 @@ const getFollowingUsers = async (req: Request, res: Response) => {
     }
 }
 
+const isFollowing = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            const error = {
+                statusCode: HTTPStatusCode.BadRequest,
+                message: "You must provide id",
+                internalMessage: InternalErrorMessage.BadRequest,
+            };
+            throw new CustomError(error);
+        }
+
+        const isFollowing = await relationshipService.isFollowing(res.locals.currentUser.id, id);
+        res.status(HTTPStatusCode.Ok).json(isFollowing);
+
+    } catch (e) {
+        if (e instanceof CustomError) {
+            res.status(e.statusCode).send(e.message);
+        } else {
+            res.send(e).status(HTTPStatusCode.InternalServerError);
+        }
+    }
+}
 export const relationshipController = {
     follow,
     unfollow,
     getFollowedUsers,
     getFollowingUsers,
+    isFollowing,
 }

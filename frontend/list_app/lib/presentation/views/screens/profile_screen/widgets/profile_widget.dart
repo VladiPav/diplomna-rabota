@@ -1,14 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:image_picker/image_picker.dart';
 
+import '../../../../../data/repositories/user_repository.dart';
 import '../../../../../models/user_model.dart';
+import '../../../../common_providers/api_service_provider.dart';
 import '../../../../common_providers/current_user_provider.dart';
+import '../../../../common_providers/is_following_provider.dart';
 import '../../../../themes/themes.dart';
-import '../../../../util/route_manager.dart';
-import '../../../custom_widgets/custom_alert_dialog.dart';
 import '../../../custom_widgets/custom_button.dart';
-import '../profile_providers.dart';
+import 'follow_button.dart';
+import 'unfollow_button.dart';
 
 class ProfileWidget extends ConsumerWidget {
   final User user;
@@ -16,7 +21,8 @@ class ProfileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.read(currentUserProvider);
+    final currentUser = ref.watch(currentUserProvider);
+    final isFollowing = ref.watch(isFollowingProvider(user.id));
     return SafeArea(
       child: Center(
         child: Column(
@@ -33,12 +39,40 @@ class ProfileWidget extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: CircleAvatar(
+                        foregroundImage: NetworkImage(user.profileImagePath ??
+                            'https://media.tenor.com/TwCxxAZeZDcAAAAC/bolen-lud.gif'),
                         radius: 80,
                       ),
                     ),
                     currentUser.when(
-                      data: (currentUser) =>
-                          currentUser.id == user.id ? Text('Yes') : Text('No'),
+                      data: (currentUser) => currentUser.id == user.id
+                          ? CustomButton(
+                              text: 'Change Photo',
+                              width: 80,
+                              height: 20,
+                              fontSize: 12,
+                              func: () async {
+                                XFile? xfile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                File? file = File(xfile!.path);
+                                UserRepository(api: ref.read(apiProvider))
+                                    .uploadProfileImage(file);
+                              },
+                            )
+                          : isFollowing.when(
+                              data: (isFollowing) {
+                                print('Hello? $isFollowing');
+                                return isFollowing
+                                  ? UnfollowButton(id: user.id)
+                                  : FollowButton(id: user.id);},
+                              error: (error, stacktrace) =>
+                                  Text('Error: $error'),
+                              loading: () => Center(
+                                child: SpinKitWave(
+                                  color: primaryColor,
+                                ),
+                              ),
+                            ),
                       error: (error, stacktrace) => Text('Error: $error'),
                       loading: () => Center(
                         child: SpinKitWave(
@@ -49,7 +83,7 @@ class ProfileWidget extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                       child: Text(
-                        'Username',
+                        user.username,
                         style: TextStyle(fontSize: 20),
                         textAlign: TextAlign.center,
                       ),

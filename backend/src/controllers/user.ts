@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { userService } from "../services/user"
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
+import path from "path";
 
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -35,7 +36,20 @@ const createUser = async (req: Request, res: Response) => {
 
 const uploadProfileImage = async (req: Request, res: Response) => {
   try {
-    res.status(HTTPStatusCode.Created).json(req.file?.path);
+    if (!req.file?.path) {
+      const error = {
+        statusCode: HTTPStatusCode.BadRequest,
+        message: "Image path is undefined",
+        internalMessage: InternalErrorMessage.BadRequest,
+      };
+      throw new CustomError(error);
+    }
+
+    const imagePath = (req.file?.path).split(path.sep).join(path.posix.sep);;
+    console.log(req.file?.path);
+    console.log(imagePath);
+    userService.updateProfileImage(res.locals.currentUser, imagePath);
+    res.status(HTTPStatusCode.Created).json(imagePath);
   }
   catch (e) {
     if (e instanceof CustomError) {
@@ -78,7 +92,14 @@ const getUserById = async (req: Request, res: Response) => {
 
 const getCurrentUser = async (req: Request, res: Response) => {
   try {
-    return res.locals.currentUser;
+    const response = {
+      id: res.locals.currentUser.id,
+      email: res.locals.currentUser.email,
+      username: res.locals.currentUser.username,
+      collections: res.locals.currentUser.collections,
+      profileImagePath: res.locals.currentUser.profileImagePath
+    }
+    res.json(response);
   } catch (e) {
     if (e instanceof CustomError) {
       res.status(e.statusCode).send(e.message);

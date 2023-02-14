@@ -52,13 +52,14 @@ model CollectionElement {
 }
 
 model User {
-  id          String         @id @default(uuid()) @db.VarChar(256)
-  firebaseId  String         @unique @map("firebase_id")
-  email       String         @unique
-  username    String         @unique
-  followers   Relationship[] @relation("followed")
-  following   Relationship[] @relation("follower")
-  collections Collection[]   @relation("collections")
+  id               String         @id @default(uuid()) @db.VarChar(256)
+  firebaseId       String         @unique @map("firebase_id")
+  email            String         @unique
+  username         String         @unique
+  profileImagePath String?
+  followers        Relationship[] @relation("followed")
+  following        Relationship[] @relation("follower")
+  collections      Collection[]   @relation("collections")
 
   @@map("user")
 }
