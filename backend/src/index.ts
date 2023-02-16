@@ -3,6 +3,7 @@ import router from "./routes/index";
 import morganBody from 'morgan-body';
 import bodyParser from 'body-parser';
 import { initializeApp } from "firebase-admin/app";
+import { authMiddleware } from './middleware/auth';
 
 initializeApp();
 
@@ -15,7 +16,7 @@ morganBody(app);
 
 app.use('/images', express.static('images'));
 
-app.use("/", router);
+app.use("/", authMiddleware, router);
 
 app.use('*', (req, res) => res.status(404).send('Not Found'));
 

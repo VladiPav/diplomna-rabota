@@ -88,7 +88,30 @@ const getAllUsers = async (req: Request, res: Response) => {
 }
 
 const getUserById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
 
+    if (!id) {
+      const error = {
+        statusCode: HTTPStatusCode.BadRequest,
+        message: "You must provide id",
+        internalMessage: InternalErrorMessage.BadRequest,
+      };
+      throw new CustomError(error);
+    }
+
+    const user = await userService.getUserById(id);
+
+    res.status(HTTPStatusCode.Ok).json(user);
+
+  } catch (e) {
+    console.log(e);
+    if (e instanceof CustomError) {
+      res.status(e.statusCode).send(e.message);
+    } else {
+      res.status(HTTPStatusCode.InternalServerError).send(e);
+    }
+  }
 }
 
 const getCurrentUser = async (req: Request, res: Response) => {

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/collection_model.dart';
 import '../../models/user_model.dart';
 import 'auth_interseptor.dart';
 
@@ -45,7 +46,15 @@ class ApiService {
         '/users/followers',
       );
       print('FOLLOWERS:\n$followers');
-      return (followers.data as List).map((x) => User.fromJson(x['following'])).toList();
+      return (followers.data as List).map((x) {
+        if (x['follower']['profileImagePath'] != null) {
+          x['follower']['profileImagePath'] =
+              '${dotenv.env['BASE_URL']!}/${x['follower']['profileImagePath']}';
+        }
+        print('X:\n${x["followed"]}');
+
+        return User.fromJson(x['follower']);
+      }).toList();
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
     }
@@ -59,7 +68,10 @@ class ApiService {
       );
       print('FOLLOWING:\n$following');
       return (following.data as List).map((x) {
-        print('X:\n${x["followed"]}');
+        if (x['followed']['profileImagePath'] != null) {
+          x['followed']['profileImagePath'] =
+              '${dotenv.env['BASE_URL']!}/${x['followed']['profileImagePath']}';
+        }
         return User.fromJson(x['followed']);
       }).toList();
     } catch (error, stacktrace) {
@@ -75,7 +87,13 @@ class ApiService {
           'username': query,
         },
       );
-      return (result.data as List).map((x) => User.fromJson(x)).toList();
+      return (result.data as List).map((x) {
+        if (x['profileImagePath'] != null) {
+          x['profileImagePath'] =
+          '${dotenv.env['BASE_URL']!}/${x['profileImagePath']}';
+        }
+        return User.fromJson(x);
+      }).toList();
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
     }
@@ -86,8 +104,9 @@ class ApiService {
       var result = await _dio.get(
         '/users/me',
       );
-      if(result.data['profileImagePath'] != null) {
-        result.data['profileImagePath'] = dotenv.env['BASE_URL']! + '/' + result.data['profileImagePath'];
+      if (result.data['profileImagePath'] != null) {
+        result.data['profileImagePath'] =
+            '${dotenv.env['BASE_URL']!}/' + result.data['profileImagePath'];
       }
       return User.fromJson(result.data as Map<String, dynamic>);
     } catch (error, stacktrace) {
@@ -95,30 +114,29 @@ class ApiService {
     }
   }
 
-  // Future<User> getUserById(String id) async {
-  //   try {
-  //     final result = await _dio.get(
-  //       '/users',
-  //     );
-  //     return (result.data as List).map((x) => User.fromJson(x)).toList();
-  //   } catch (error, stacktrace) {
-  //     throw Exception("Exception occured: $error stacktrace: $stacktrace");
-  //   }
-  // }
+  Future<User> getUserById(String id) async {
+    try {
+      final result = await _dio.get(
+        '/users',
+      );
+      return User.fromJson(result as Map<String, dynamic>);
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
 
   Future<void> uploadImage(File file) async {
-    String fileName = file.path.split('/').last;
-    FormData formData = FormData.fromMap({
-      "image":
-      await MultipartFile.fromFile(file.path, filename:fileName),
+    final String fileName = file.path.split('/').last;
+    final FormData formData = FormData.fromMap({
+      "image": await MultipartFile.fromFile(file.path, filename: fileName),
     });
     print('FILE:\n\n${fileName}');
-    final response = await _dio.post("/users/me/profile-image", data: formData);
+    final response = await _dio.post('/users/me/profile-image', data: formData);
   }
 
   Future<bool> isFollowing(String id) async {
     try {
-      var result = await _dio.get(
+      final result = await _dio.get(
         '/users/$id/following',
       );
       print('ALOU: $result');
@@ -140,11 +158,25 @@ class ApiService {
 
   Future<void> unfollow(String id) async {
     try {
-      var result = await _dio.delete(
+      final result = await _dio.delete(
         '/users/$id/unfollow',
       );
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
     }
   }
+
+  Future<Collection> getCollectionById(id) async {
+    try {
+      final result = await _dio.get(
+        '/collections/$id',
+      );
+
+      return Collection.fromJson(result.data);
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
+
 }

@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../../models/collection_model.dart';
 import '../../../../../models/user_model.dart';
+import '../../../../common_providers/collection_provider.dart';
 import '../../../../common_providers/current_user_provider.dart';
 import '../../../../themes/themes.dart';
 import '../../../../util/route_manager.dart';
@@ -40,11 +41,12 @@ class CollectionsWidget extends ConsumerWidget {
                   return ListTile(
                     leading: Text('$index'),
                     title: Text(collection.name ?? 'alo'),
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      Routes.collection,
-                      arguments: collection as Collection,
-                    ),
+                    onTap: () {
+                      print('COLLECTIONID:\n${collection.id}');
+                      ref.read(collectionIdProvider.notifier).state =
+                          collection.id;
+                      Navigator.pushNamed(context, Routes.collection);
+                    },
                   );
                 })
             : Center(child: Text('User currently has no collections'));

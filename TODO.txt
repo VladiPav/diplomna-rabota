@@ -1,0 +1,10 @@
+Frontend:
+ - Refresh on no followers/followed
+ - Logout button on profile page
+ - Add button on collection and item in collection
+
+Backend:
+
+ - Get user by id
+ - Check error with error handling on some requests
+ 

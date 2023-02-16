@@ -3,7 +3,7 @@ import { collectionService } from '../services/collection';
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
 
 
-const createCollection = (req: Request, res: Response) => {
+const createCategory = async (req: Request, res: Response) => {
     try {
         const {
             name,
@@ -11,6 +11,7 @@ const createCollection = (req: Request, res: Response) => {
 
 
     } catch (e) {
+        console.log(e);
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
@@ -19,21 +20,38 @@ const createCollection = (req: Request, res: Response) => {
     }
 }
 
-const getCollectionById = (req: Request, res: Response) => {
-  try {
-    const {
-        id,
-    } = req.params;
+const getCollectionById = async (req: Request, res: Response) => {
+    try {
+        const {
+            id,
+        } = req.params;
 
-    const result = collectionService.getCollectionById(id);
+        if (!id) {
+            const error = {
+                statusCode: HTTPStatusCode.BadRequest,
+                message: "You must provide id",
+                internalMessage: InternalErrorMessage.BadRequest,
+            };
+            throw new CustomError(error);
+        }
 
-    res.status(HTTPStatusCode.Ok).json(result);
+        const collection = await collectionService.getCollectionById(id);
+        console.log('COLLECTION:');
+        console.log(collection);
 
-  } catch (e) {
-      if (e instanceof CustomError) {
-          res.status(e.statusCode).send(e.message);
-      } else {
-          res.send(e).status(HTTPStatusCode.InternalServerError);
-      }
-  }
+        res.status(HTTPStatusCode.Ok).json(collection);
+
+    } catch (e) {
+        console.log(e);
+        if (e instanceof CustomError) {
+            res.status(e.statusCode).send(e.message);
+        } else {
+            res.send(e).status(HTTPStatusCode.InternalServerError);
+        }
+    }
+}
+
+export const collectionController = {
+    createCategory,
+    getCollectionById,
 }

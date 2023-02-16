@@ -40,4 +40,6 @@ class UserRepository {
   Future<void> follow(id) => api.follow(id);
   Future<void> unfollow(id) => api.unfollow(id);
 
+  Future<User> getUserById(id) => api.getUserById(id);
+
 }

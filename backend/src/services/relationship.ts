@@ -23,10 +23,10 @@ const follow = async (follower: User, followedId: string) => {
         const alreadyFollowing = await prismaService.relationship.findFirst({
             where: {
                 followed: {
-                  id: followed.id,
+                    id: followed.id,
                 },
                 follower: {
-                  id: follower.id,
+                    id: follower.id,
                 },
             }
         });
@@ -84,10 +84,10 @@ const unfollow = async (follower: User, followedId: string) => {
         const alreadyFollowing = await prismaService.relationship.findFirst({
             where: {
                 followed: {
-                  id: followed.id,
+                    id: followed.id,
                 },
                 follower: {
-                  id: follower.id,
+                    id: follower.id,
                 },
             }
         });
@@ -121,21 +121,21 @@ const getFollowedUsers = async (user: User): Promise<Relationship[]> => {
                 followerId: user.id,
             },
             include: {
-              followed: {
-                include:{
-                  collections:{
-                    include:{
-                      collectionElements:{
-                        include:{
-                          element: true,
+                followed: {
+                    include: {
+                        collections: {
+                            include: {
+                                collectionElements: {
+                                    include: {
+                                        element: true,
+                                    },
+                                },
+                            },
                         },
-                      },
                     },
-                  },
                 },
-              },
             },
-          });
+        });
         return followed;
 
     } catch (error) {
@@ -149,19 +149,19 @@ const getFollowingUsers = async (user: User): Promise<Relationship[]> => {
             followedId: user.id,
         },
         include: {
-          follower:{
-            include:{
-              collections:{
-                include:{
-                  collectionElements:{
-                    include:{
-                      element: true,
+            follower: {
+                include: {
+                    collections: {
+                        include: {
+                            collectionElements: {
+                                include: {
+                                    element: true,
+                                },
+                            },
+                        },
                     },
-                  },
                 },
-              },
             },
-          },
         }
     });
 }

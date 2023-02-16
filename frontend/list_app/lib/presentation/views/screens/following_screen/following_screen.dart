@@ -113,24 +113,38 @@ class FollowingScreen extends ConsumerWidget {
                             following.when(
                               data: (following) {
                                 print('ACTUAL FOLLOWING:\n$following');
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: following.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        20, 10, 20, 0),
-                                    child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: NetworkImage(following[
-                                                      index]
-                                                  .profileImagePath ??
-                                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+                                return RefreshIndicator(
+                                  color: primaryColor,
+                                  strokeWidth: 3,
+                                  onRefresh: () async =>
+                                      await ref.refresh(followingProvider),
+                                  child: following.length != 0
+                                      ? ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: following.length,
+                                          itemBuilder: (context, index) =>
+                                              Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                20, 10, 20, 0),
+                                            child: Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundImage: NetworkImage(
+                                                      following[index]
+                                                              .profileImagePath ??
+                                                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+                                                ),
+                                                Text(following[index].username),
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : Text(
+                                          'No followed users',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
                                         ),
-                                        Text(following[index].username),
-                                      ],
-                                    ),
-                                  ),
                                 );
                               },
                               error: (error, stacktrace) =>
@@ -144,22 +158,28 @@ class FollowingScreen extends ConsumerWidget {
                             followers.when(
                               data: (followers) {
                                 print('ACTUAL FOLLOWERS:\n$following');
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: followers.length,
-                                  itemBuilder: (context, index) => Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        20, 10, 20, 0),
-                                    child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: NetworkImage(followers[
-                                                      index]
-                                                  .profileImagePath ??
-                                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
-                                        ),
-                                        Text(followers[index].username),
-                                      ],
+                                return RefreshIndicator(
+                                  color: primaryColor,
+                                  strokeWidth: 3,
+                                  onRefresh: () async =>
+                                      await ref.refresh(followersProvider),
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: followers.length,
+                                    itemBuilder: (context, index) => Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          20, 10, 20, 0),
+                                      child: Row(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundImage: NetworkImage(
+                                                followers[index]
+                                                        .profileImagePath ??
+                                                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+                                          ),
+                                          Text(followers[index].username),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );
