@@ -9,8 +9,7 @@ router.get("/test", (req: Request, res: Response) => {
     res.send("Working as intended");
 })
 
-router.use(authMiddleware);
 
-router.use("/users", userRouter);
+router.use("/users", authMiddleware, userRouter);
 
 export default router;

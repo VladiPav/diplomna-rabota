@@ -10,6 +10,7 @@ part 'user_model.g.dart';
 class User {
   User({
     required this.id,
+    required this.firebaseId,
     required this.username,
     required this.email,
     required this.collections,
@@ -17,6 +18,7 @@ class User {
   });
 
   final String id;
+  final String firebaseId;
   final String username;
   final String email;
   final String? profileImagePath;

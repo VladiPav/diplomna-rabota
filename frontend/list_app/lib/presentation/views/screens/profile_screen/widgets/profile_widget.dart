@@ -25,29 +25,30 @@ class ProfileWidget extends ConsumerWidget {
     final currentUser = ref.watch(currentUserProvider);
     final isFollowing = ref.watch(isFollowingProvider(user.id));
     return SafeArea(
-      child: Center(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: accentColor,
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: CircleAvatar(
-                        foregroundImage: NetworkImage(user.profileImagePath ??
-                            'https://media.tenor.com/TwCxxAZeZDcAAAAC/bolen-lud.gif'),
-                        radius: 80,
+      child: currentUser.when(
+        data: (currentUser) => Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: accentColor,
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: CircleAvatar(
+                          foregroundImage: NetworkImage(
+                            user.profileImagePath ??
+                                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+                          ),
+                          radius: 80,
+                        ),
                       ),
-                    ),
-                    currentUser.when(
-                      data: (currentUser) => currentUser.id == user.id
-                          ? CustomButton(
+                      if (currentUser.id == user.id) CustomButton(
                               text: 'Change Photo',
                               width: 80,
                               height: 20,
@@ -56,50 +57,51 @@ class ProfileWidget extends ConsumerWidget {
                                 XFile? xfile = await ImagePicker()
                                     .pickImage(source: ImageSource.gallery);
                                 File? file = File(xfile!.path);
-                                UserRepository(api: ref.read(apiProvider))
+                                await UserRepository(api: ref.read(apiProvider))
                                     .uploadProfileImage(file);
                               },
-                            )
-                          : isFollowing.when(
+                            ) else isFollowing.when(
                               data: (isFollowing) {
                                 print('Hello? $isFollowing');
                                 return isFollowing
-                                  ? UnfollowButton(id: user.id)
-                                  : FollowButton(id: user.id);
-                                },
+                                    ? UnfollowButton(id: user.id)
+                                    : FollowButton(id: user.id);
+                              },
                               error: (error, stacktrace) =>
                                   Text('Error: $error'),
-                              loading: () => Center(
+                              loading: () => const Center(
                                 child: SpinKitWave(
                                   color: primaryColor,
                                 ),
                               ),
                             ),
-                      error: (error, stacktrace) => Text('Error: $error'),
-                      loading: () => Center(
-                        child: SpinKitWave(
-                          color: primaryColor,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                        child: Text(
+                          user.username,
+                          style: TextStyle(fontSize: 20),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                      child: Text(
-                        user.username,
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Divider(
-              color: primaryColor,
-              thickness: 3,
-            ),
-            CollectionsWidget(user: user,),
-          ],
+              const Divider(
+                color: primaryColor,
+                thickness: 3,
+              ),
+              CollectionsWidget(
+                user: user,
+              ),
+            ],
+          ),
+        ),
+        error: (error, stacktrace) => Text('Error: $error'),
+        loading: () => const Center(
+          child: SpinKitWave(
+            color: primaryColor,
+          ),
         ),
       ),
     );

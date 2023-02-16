@@ -5,36 +5,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../themes/themes.dart';
 import './following_provider.dart';
 import 'util/custom_search_delegate.dart';
-import 'widgets/search_field.dart';
-
-final data = [
-  Row(
-    children: [
-      CircleAvatar(),
-      Padding(padding: EdgeInsets.all(8)),
-      Text('Username of person'),
-    ],
-  ),
-  Row(
-    children: [
-      CircleAvatar(),
-      Padding(padding: EdgeInsets.all(8)),
-      Text('Username of person'),
-    ],
-  ),
-  Container(
-    color: Colors.red,
-    child: Row(
-      children: [
-        CircleAvatar(),
-        Padding(padding: EdgeInsets.all(8)),
-        Text('Username of person'),
-      ],
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-    ),
-  )
-];
 
 class FollowingScreen extends ConsumerWidget {
   const FollowingScreen({
@@ -141,17 +111,28 @@ class FollowingScreen extends ConsumerWidget {
                         child: TabBarView(
                           children: [
                             following.when(
-                              data: (following) => ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: following.length ?? 0,
-                                itemBuilder: (context, index) => Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CircleAvatar(),
-                                    Text(following[index].username),
-                                  ],
-                                ),
-                              ),
+                              data: (following) {
+                                print('ACTUAL FOLLOWING:\n$following');
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: following.length,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 10, 20, 0),
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(following[
+                                                      index]
+                                                  .profileImagePath ??
+                                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+                                        ),
+                                        Text(following[index].username),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                               error: (error, stacktrace) =>
                                   Text('Error: $error'),
                               loading: () => Center(
@@ -161,17 +142,28 @@ class FollowingScreen extends ConsumerWidget {
                               ),
                             ),
                             followers.when(
-                              data: (followers) => ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: followers.length ?? 0,
-                                itemBuilder: (context, index) => Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    CircleAvatar(),
-                                    Text(followers[index].username),
-                                  ],
-                                ),
-                              ),
+                              data: (followers) {
+                                print('ACTUAL FOLLOWERS:\n$following');
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: followers.length,
+                                  itemBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        20, 10, 20, 0),
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(followers[
+                                                      index]
+                                                  .profileImagePath ??
+                                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+                                        ),
+                                        Text(followers[index].username),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                               error: (error, stacktrace) =>
                                   Text('Error: $error'),
                               loading: () => Center(

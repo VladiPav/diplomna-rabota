@@ -5,7 +5,6 @@ import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/erro
 
 const follow = async (req: Request, res: Response) => {
     try {
-        console.log("TRYING TO FOLLOW");
         const followedId = req.params.id;
 
         const result = await relationshipService.follow(res.locals.currentUser, followedId);
@@ -34,7 +33,7 @@ const unfollow = async (req: Request, res: Response) => {
         res.status(HTTPStatusCode.Ok).send();
 
     } catch (e) {
-        //console.log(e);
+        console.log(e);
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {

@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'element_model.dart';
+import 'collection_element_model.dart';
 
 part 'collection_model.g.dart';
 
@@ -8,17 +8,19 @@ part 'collection_model.g.dart';
 class Collection {
   Collection({
     required this.id,
-    required this.category,
+    // required this.category,
     required this.userId,
     required this.name,
-    this.elements,
+    required this.categoryId,
+    required this.collectionElements,
   });
 
   final String id;
-  final String category;
+  // final String category;
   final String name;
   final String userId;
-  final List<Element>? elements;
+  final String categoryId;
+  final List<CollectionElement> collectionElements;
 
   factory Collection.fromJson(Map<String, dynamic> json) =>
       _$CollectionFromJson(json);

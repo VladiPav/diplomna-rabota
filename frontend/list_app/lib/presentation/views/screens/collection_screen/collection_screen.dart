@@ -11,6 +11,7 @@ class CollectionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final collection = ModalRoute.of(context)!.settings.arguments as Collection;
+    print('RESULT:\n$collection');
     return Scaffold(
       appBar: AppBar(
         title: Text(collection.name),
@@ -19,11 +20,12 @@ class CollectionScreen extends ConsumerWidget {
         child: ListView.builder(
           shrinkWrap: true,
           itemCount:
-              collection.elements == null ? 0 : collection.elements?.length,
+              collection.collectionElements.length,
           itemBuilder: (context, int index) {
-            final element = collection.elements?[index];
+            final element = collection.collectionElements[index];
             return ListTile(
-              title: Text('alo'),
+              leading: Text('$index'),
+              title: Text(element.element.name),
             );
           },
         ),

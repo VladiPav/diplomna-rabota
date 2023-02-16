@@ -39,10 +39,13 @@ class ApiService {
 
   Future<List<User>> getFollowers() async {
     try {
+      print('TRYING TO GET FOLLOWERS');
+
       final followers = await _dio.get(
         '/users/followers',
       );
-      return (followers.data as List).map((x) => User.fromJson(x)).toList();
+      print('FOLLOWERS:\n$followers');
+      return (followers.data as List).map((x) => User.fromJson(x['following'])).toList();
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
     }
@@ -50,10 +53,15 @@ class ApiService {
 
   Future<List<User>> getFollowing() async {
     try {
+      print('TRYING TO FOLLOWING');
       final following = await _dio.get(
         '/users/following',
       );
-      return (following.data as List).map((x) => User.fromJson(x)).toList();
+      print('FOLLOWING:\n$following');
+      return (following.data as List).map((x) {
+        print('X:\n${x["followed"]}');
+        return User.fromJson(x['followed']);
+      }).toList();
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
     }
@@ -78,7 +86,6 @@ class ApiService {
       var result = await _dio.get(
         '/users/me',
       );
-      print('RESULT:\n\n${result.data}');
       if(result.data['profileImagePath'] != null) {
         result.data['profileImagePath'] = dotenv.env['BASE_URL']! + '/' + result.data['profileImagePath'];
       }

@@ -26,14 +26,24 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction): Pro
 
 
         const decodedToken = await getAuth().verifyIdToken(token);
-        // console.log(decodedToken);
         console.log(token);
+
         res.locals.currentUser = await prismaService.user.findFirst({
             where: {
                 firebaseId: decodedToken.uid
             },
-        },);
-        console.log(res.locals.currentUser);
+            include: {
+              collections: {
+                include: {
+                  collectionElements: {
+                    include: {
+                      element: true,
+                    },
+                  },
+                },
+              },
+            },
+        });
 
         return next()
 

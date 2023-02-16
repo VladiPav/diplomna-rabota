@@ -47,8 +47,6 @@ const uploadProfileImage = async (req: Request, res: Response) => {
     }
 
     const imagePath = (req.file?.path).split(path.sep).join(path.posix.sep);;
-    console.log(req.file?.path);
-    console.log(imagePath);
     userService.updateProfileImage(res.locals.currentUser, imagePath);
     res.status(HTTPStatusCode.Created).json(imagePath);
   }
@@ -95,14 +93,7 @@ const getUserById = async (req: Request, res: Response) => {
 
 const getCurrentUser = async (req: Request, res: Response) => {
   try {
-    const response = {
-      id: res.locals.currentUser.id,
-      email: res.locals.currentUser.email,
-      username: res.locals.currentUser.username,
-      collections: res.locals.currentUser.collections,
-      profileImagePath: res.locals.currentUser.profileImagePath,
-    }
-    console.log(response);
+    const response = res.locals.currentUser;
     res.json(response);
   } catch (e) {
     console.log(e);

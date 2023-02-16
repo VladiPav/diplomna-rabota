@@ -22,8 +22,12 @@ const follow = async (follower: User, followedId: string) => {
 
         const alreadyFollowing = await prismaService.relationship.findFirst({
             where: {
-                followed,
-                follower,
+                followed: {
+                  id: followed.id,
+                },
+                follower: {
+                  id: follower.id,
+                },
             }
         });
 
@@ -79,8 +83,12 @@ const unfollow = async (follower: User, followedId: string) => {
 
         const alreadyFollowing = await prismaService.relationship.findFirst({
             where: {
-                followed,
-                follower,
+                followed: {
+                  id: followed.id,
+                },
+                follower: {
+                  id: follower.id,
+                },
             }
         });
 
@@ -113,9 +121,21 @@ const getFollowedUsers = async (user: User): Promise<Relationship[]> => {
                 followerId: user.id,
             },
             include: {
-                followed: true,
-            }
-        });
+              followed: {
+                include:{
+                  collections:{
+                    include:{
+                      collectionElements:{
+                        include:{
+                          element: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          });
         return followed;
 
     } catch (error) {
@@ -128,6 +148,21 @@ const getFollowingUsers = async (user: User): Promise<Relationship[]> => {
         where: {
             followedId: user.id,
         },
+        include: {
+          follower:{
+            include:{
+              collections:{
+                include:{
+                  collectionElements:{
+                    include:{
+                      element: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }
     });
 }
 

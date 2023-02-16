@@ -26,7 +26,27 @@ const reorderCollection = async (collectionId: string, newPostitions: string[]) 
     }
 }
 
+const getCollectionById = async (id: string) => {
+  try{
+    prismaService.collection.findFirst({
+      where:{
+        id:id,
+      },
+      include: {
+        collectionElements: {
+          include: {
+            element: true,
+          },
+        }
+      }
+    },
+    );
+  } catch(e) {
+    throw e;
+  }
+}
+
 export const collectionService = {
     createCollection,
-
+    getCollectionById,
 }

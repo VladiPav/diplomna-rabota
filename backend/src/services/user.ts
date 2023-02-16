@@ -51,7 +51,6 @@ const createUser = async (userCreateInfo: UserCreateInfo): Promise<User> => {
 
 const getAllUsers = async (currentUser: User, search?: string) => {
   try {
-    console.log('Username: ' + search);
     let users = await prismaService.user.findMany({
       where: {
         username: {
@@ -62,13 +61,18 @@ const getAllUsers = async (currentUser: User, search?: string) => {
           id: currentUser.id,
         }
       },
-      select: {
-        username: true,
-        email: true,
-        id: true,
+      include: {
+        collections: {
+          include: {
+            collectionElements:{
+              include:{
+                element:true,
+              }
+            }
+          }
+        }
       }
     });
-    console.log(users);
     return users;
 
   } catch (error) {
@@ -105,7 +109,6 @@ const updateProfileImage = async (user: User, imagePath: string) => {
       profileImagePath: imagePath
     }
   });
-  console.log(user2);
 }
 
 
