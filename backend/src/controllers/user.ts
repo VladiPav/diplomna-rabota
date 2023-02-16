@@ -25,6 +25,7 @@ const createUser = async (req: Request, res: Response) => {
     res.send(user);
 
   } catch (e) {
+    console.log(e);
     if (e instanceof CustomError) {
       res.status(e.statusCode).send(e.message);
     } else {
@@ -52,6 +53,7 @@ const uploadProfileImage = async (req: Request, res: Response) => {
     res.status(HTTPStatusCode.Created).json(imagePath);
   }
   catch (e) {
+    console.log(e);
     if (e instanceof CustomError) {
       res.status(e.statusCode).send(e.message);
     } else {
@@ -78,6 +80,7 @@ const getAllUsers = async (req: Request, res: Response) => {
     res.send(result);
 
   } catch (e) {
+    console.log(e);
     if (e instanceof CustomError) {
       res.status(e.statusCode).send(e.message);
     } else {
@@ -97,10 +100,12 @@ const getCurrentUser = async (req: Request, res: Response) => {
       email: res.locals.currentUser.email,
       username: res.locals.currentUser.username,
       collections: res.locals.currentUser.collections,
-      profileImagePath: res.locals.currentUser.profileImagePath
+      profileImagePath: res.locals.currentUser.profileImagePath,
     }
+    console.log(response);
     res.json(response);
   } catch (e) {
+    console.log(e);
     if (e instanceof CustomError) {
       res.status(e.statusCode).send(e.message);
     } else {

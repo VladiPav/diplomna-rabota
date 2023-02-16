@@ -16,7 +16,6 @@ class LoginController extends StateNotifier<void> {
       String password,
       BuildContext context,
       ) async {
-    print(email.toString() + '   ' + password.toString());
     await _authRepository
         .signIn(
       email: email,

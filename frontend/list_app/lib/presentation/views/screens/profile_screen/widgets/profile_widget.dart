@@ -12,6 +12,7 @@ import '../../../../common_providers/current_user_provider.dart';
 import '../../../../common_providers/is_following_provider.dart';
 import '../../../../themes/themes.dart';
 import '../../../custom_widgets/custom_button.dart';
+import 'collections.dart';
 import 'follow_button.dart';
 import 'unfollow_button.dart';
 
@@ -64,7 +65,8 @@ class ProfileWidget extends ConsumerWidget {
                                 print('Hello? $isFollowing');
                                 return isFollowing
                                   ? UnfollowButton(id: user.id)
-                                  : FollowButton(id: user.id);},
+                                  : FollowButton(id: user.id);
+                                },
                               error: (error, stacktrace) =>
                                   Text('Error: $error'),
                               loading: () => Center(
@@ -96,6 +98,7 @@ class ProfileWidget extends ConsumerWidget {
               color: primaryColor,
               thickness: 3,
             ),
+            CollectionsWidget(user: user,),
           ],
         ),
       ),

@@ -11,6 +11,7 @@ const createCategory = (req: Request, res: Response) => {
 
 
     } catch (e) {
+        console.log(e);
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {

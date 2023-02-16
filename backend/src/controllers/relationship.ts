@@ -10,8 +10,11 @@ const follow = async (req: Request, res: Response) => {
 
         const result = await relationshipService.follow(res.locals.currentUser, followedId);
 
+        res.status(HTTPStatusCode.Created).send(result);
 
     } catch (e) {
+        console.log(e);
+
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
@@ -28,11 +31,14 @@ const unfollow = async (req: Request, res: Response) => {
 
         relationshipService.unfollow(res.locals.currentUser, followedId);
 
+        res.status(HTTPStatusCode.Ok).send();
+
     } catch (e) {
+        //console.log(e);
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
-            res.send(e).status(HTTPStatusCode.InternalServerError);
+            res.status(HTTPStatusCode.InternalServerError).send(e);
         }
     }
 }
@@ -42,6 +48,7 @@ const getFollowedUsers = async (req: Request, res: Response) => {
         const followedUsers = await relationshipService.getFollowedUsers(res.locals.currentUser);
         res.json(followedUsers);
     } catch (e) {
+        console.log(e);
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
@@ -56,6 +63,7 @@ const getFollowingUsers = async (req: Request, res: Response) => {
         res.json(followingUsers);
 
     } catch (e) {
+        console.log(e);
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
@@ -81,6 +89,7 @@ const isFollowing = async (req: Request, res: Response) => {
         res.status(HTTPStatusCode.Ok).json(isFollowing);
 
     } catch (e) {
+        console.log(e);
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {

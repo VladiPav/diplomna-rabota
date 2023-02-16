@@ -78,12 +78,13 @@ class ApiService {
       var result = await _dio.get(
         '/users/me',
       );
-
-      result.data['profileImagePath'] = dotenv.env['BASE_URL']! + '/' + result.data['profileImagePath'];
-      print('RESULT:\n\n${result}');
+      print('RESULT:\n\n${result.data}');
+      if(result.data['profileImagePath'] != null) {
+        result.data['profileImagePath'] = dotenv.env['BASE_URL']! + '/' + result.data['profileImagePath'];
+      }
       return User.fromJson(result.data as Map<String, dynamic>);
     } catch (error, stacktrace) {
-      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+      throw Exception("BIG SAD");
     }
   }
 
@@ -113,8 +114,8 @@ class ApiService {
       var result = await _dio.get(
         '/users/$id/following',
       );
-      print(result);
-      return false;
+      print('ALOU: $result');
+      return result.data as bool;
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
     }

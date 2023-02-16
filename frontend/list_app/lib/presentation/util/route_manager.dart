@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../views/screens/access_validation/access_validation_screen.dart';
+import '../views/screens/collection_screen/collection_screen.dart';
 import '../views/screens/following_screen/following_screen.dart';
 import '../views/screens/home_screen.dart';
 import '../views/screens/login_screen/login_screen.dart';
@@ -17,6 +18,7 @@ class Routes {
   static const String register = 'register';
   static const String home = 'home';
   static const String profile = 'profile';
+  static const String collection = 'collection';
 }
 
 
@@ -42,6 +44,10 @@ class AppRouter {
       case Routes.profile:
         return MaterialPageRoute(
           builder: (_) => const ProfileScreen(),
+        );
+      case Routes.collection:
+        return MaterialPageRoute(
+          builder: (_) => const CollectionScreen(),
         );
       default:
         throw const FormatException('Route not found!');

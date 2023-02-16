@@ -12,15 +12,15 @@ class User {
     required this.id,
     required this.username,
     required this.email,
+    required this.collections,
     this.profileImagePath,
-    this.collections,
   });
 
   final String id;
   final String username;
   final String email;
   final String? profileImagePath;
-  final List<Collection>? collections;
+  final List<Collection> collections;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

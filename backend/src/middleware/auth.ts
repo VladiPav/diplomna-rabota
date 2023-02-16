@@ -38,6 +38,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction): Pro
         return next()
 
     } catch (error) {
+        console.log(error);
         if (error instanceof CustomError) {
             res.status(error.statusCode).send(error.message);
         } else {

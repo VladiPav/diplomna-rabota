@@ -2,7 +2,7 @@ import { Category, Relationship, User } from "@prisma/client";
 import { HTTPStatusCode, CustomError, InternalErrorMessage } from "../types/error";
 import { prismaService } from "./prisma-service";
 
-const follow = async (follower: User, followedId: string): Promise<Relationship> => {
+const follow = async (follower: User, followedId: string) => {
     try {
 
         const followed = await prismaService.user.findFirst({
@@ -58,7 +58,8 @@ const follow = async (follower: User, followedId: string): Promise<Relationship>
     }
 }
 
-const unfollow = async (follower: User, followedId: string): Promise<void> => {
+
+const unfollow = async (follower: User, followedId: string) => {
     try {
 
         const followed = await prismaService.user.findFirst({
@@ -86,15 +87,19 @@ const unfollow = async (follower: User, followedId: string): Promise<void> => {
         if (!alreadyFollowing) {
             const error = {
                 statusCode: HTTPStatusCode.BadRequest,
-                message: "already following",
+                message: "you are not following this user",
                 internalMessage: InternalErrorMessage.BadRequest,
             };
             throw new CustomError(error);
         }
 
         await prismaService.relationship.delete({
-            where: alreadyFollowing
+            where: {
+                id: alreadyFollowing.id,
+            }
         });
+
+
 
     } catch (error) {
         throw error;

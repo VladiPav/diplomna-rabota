@@ -11,8 +11,8 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       username: json['username'] as String,
       email: json['email'] as String,
       profileImagePath: json['profileImagePath'] as String?,
-      collections: (json['collections'] as List<dynamic>?)
-          ?.map((e) => Collection.fromJson(e as Map<String, dynamic>))
+      collections: (json['collections'] as List<dynamic>)
+          .map((e) => Collection.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
