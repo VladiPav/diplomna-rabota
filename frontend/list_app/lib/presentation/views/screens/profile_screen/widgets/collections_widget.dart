@@ -22,22 +22,30 @@ class CollectionsWidget extends ConsumerWidget {
     final currentUser = ref.watch(currentUserProvider);
     return currentUser.when(
       data: (currentUser) {
+        print('COLLECTIONS:\n${user.collections}');
         return user.collections.isNotEmpty
             ? ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: user.collections.length,
+                itemCount: currentUser.id == user.id
+                    ? user.collections.length + 1
+                    : user.collections.length,
                 itemBuilder: (context, int index) {
-                  if (index == 0) {
-                    currentUser.id == user.id
-                        ? CustomButton(
-                            text: 'Add category',
-                            width: 100,
-                            height: 40,
-                            fontSize: 14,
-                            func: () {})
-                        : null;
+                  if (index == 0 && currentUser.id == user.id) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomButton(
+                          text: 'Add list',
+                          width: 150,
+                          height: 45,
+                          fontSize: 18,
+                          func: () {Navigator.pushNamed(context, Routes.createCollection);},
+                        )
+                      ],
+                    );
                   }
-                  final collection = user.collections[index];
+                  final collection = user.collections[index - 1];
                   return ListTile(
                     leading: Text('$index'),
                     title: Text(collection.name ?? 'alo'),

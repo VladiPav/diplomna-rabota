@@ -20,8 +20,4 @@ router.get('/me', userController.getCurrentUser);
 
 router.get('/:id', userController.getUserById);
 
-router.use('*', function (req, res) {
-    res.status(404);
-});
-
 export const userRouter = router;

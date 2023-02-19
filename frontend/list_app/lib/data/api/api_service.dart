@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../models/category_model.dart';
 import '../../models/collection_model.dart';
 import '../../models/user_model.dart';
 import 'auth_interseptor.dart';
@@ -178,5 +178,34 @@ class ApiService {
     }
   }
 
+  Future<List<Category>> searchCategory(name) async {
+    try {
+      final result = await _dio.get(
+        '/categories',
+        queryParameters: {
+          'name': name,
+        },
+      );
+
+      return (result.data as List).map((x) => Category.fromJson(x)).toList();
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
+  Future<void> createCollection(
+      String name,
+      String categoryId,
+      ) async {
+    try {
+      final collection = await _dio.post(
+        '/collections',
+        data: {'name': name, 'categoryId': categoryId},
+      );
+      return;
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
 
 }

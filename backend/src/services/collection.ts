@@ -1,10 +1,44 @@
+import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
 import { prismaService } from "./prisma-service";
 
-const createCollection = async () => {
+const createCollection = async (name: string, userId: string, categoryId: string) => {
   try {
+    const collectionAlreadyExists = await prismaService.collection.findFirst({
+      where: {
+        name: name,
+        userId: userId,
+      },
+    });
+
+    if (collectionAlreadyExists) {
+      const error = {
+        statusCode: HTTPStatusCode.BadRequest,
+        message: "Collection already exists on your profile",
+        internalMessage: InternalErrorMessage.BadRequest,
+      };
+      throw new CustomError(error);
+    }
+
+    const collection = await prismaService.collection.create({
+      data: {
+        name: name,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
+        category: {
+          connect: {
+            id: categoryId,
+          },
+        },
+      },
+    });
+
+    return collection;
 
   } catch (error) {
-
+    throw error;
   }
 }
 

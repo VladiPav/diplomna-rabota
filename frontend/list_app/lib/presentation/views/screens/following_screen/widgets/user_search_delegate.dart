@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../../data/api/api_service.dart';
-import '../../../../../data/repositories/user_repository.dart';
 import '../../../../../models/user_model.dart';
 import '../../../../themes/themes.dart';
-import '../../../../util/route_manager.dart';
-import '../../profile_screen/profile_screen.dart';
 import '../../profile_screen/widgets/profile_widget.dart';
-import 'debouncer.dart';
 
-class CustomSearchDelegate extends SearchDelegate {
-  final _debouncer = Debouncer(milliseconds: 500);
+class UserSearchDelegate extends SearchDelegate {
   late User user;
   @override
   List<Widget>? buildActions(BuildContext context) => [

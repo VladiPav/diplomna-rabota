@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../themes/themes.dart';
+
 class CustomTextField extends StatelessWidget {
   const CustomTextField(
       {required this.inputType,
@@ -30,7 +32,7 @@ class CustomTextField extends StatelessWidget {
             // style: TextStyle(),
           ),
         ),
-        const Padding(padding: EdgeInsets.only(bottom: 10)),
+        const Padding(padding: EdgeInsets.only(bottom: 5)),
         Material(
           borderRadius: BorderRadius.circular(30),
           color: fieldColor,
@@ -39,6 +41,7 @@ class CustomTextField extends StatelessWidget {
             keyboardType: inputType,
             decoration: InputDecoration(
                 hintText: hintText,
+                hintStyle: TextStyle(color: Colors.grey),
                 enabledBorder: InputBorder.none,
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
@@ -46,6 +49,7 @@ class CustomTextField extends StatelessWidget {
                 contentPadding: const EdgeInsets.only(left: 20)),
             obscureText: obscure,
             autocorrect: false,
+            cursorColor: primaryColor,
           ),
         ),
       ],

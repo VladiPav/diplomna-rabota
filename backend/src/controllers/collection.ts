@@ -3,12 +3,19 @@ import { collectionService } from '../services/collection';
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
 
 
-const createCategory = async (req: Request, res: Response) => {
+const createCollection = async (req: Request, res: Response) => {
     try {
         const {
             name,
+            categoryId,
         } = req.body;
 
+        console.log(name);
+        console.log(categoryId);
+
+        const collection = await collectionService.createCollection(name, res.locals.currentUser.id, categoryId);
+
+        res.status(HTTPStatusCode.Created).send(collection);
 
     } catch (e) {
         console.log(e);
@@ -52,6 +59,6 @@ const getCollectionById = async (req: Request, res: Response) => {
 }
 
 export const collectionController = {
-    createCategory,
+    createCollection,
     getCollectionById,
 }

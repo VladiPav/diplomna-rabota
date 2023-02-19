@@ -4,7 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../themes/themes.dart';
 import './following_provider.dart';
-import 'util/custom_search_delegate.dart';
+import 'widgets/user_search_delegate.dart';
 
 class FollowingScreen extends ConsumerWidget {
   const FollowingScreen({
@@ -58,7 +58,7 @@ class FollowingScreen extends ConsumerWidget {
                 onPressed: () {
                   showSearch(
                     context: context,
-                    delegate: CustomSearchDelegate(),
+                    delegate: UserSearchDelegate(),
                   );
                 },
               ),

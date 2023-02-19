@@ -5,6 +5,7 @@ const router = Router();
 
 router.get('/:id', collectionController.getCollectionById);
 
+router.post('/', collectionController.createCollection);
 
 
 export const collectionRouter = router;

@@ -4,7 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../models/collection_model.dart';
 import '../../../common_providers/collection_provider.dart';
+import '../../../common_providers/current_user_provider.dart';
 import '../../../themes/themes.dart';
+import '../../custom_widgets/custom_button.dart';
 
 class CollectionScreen extends ConsumerWidget {
   const CollectionScreen({
@@ -14,6 +16,7 @@ class CollectionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final collection = ref.watch(collectionProvider);
+    final currentUser = ref.watch(currentUserProvider);
     print('RESULT:\n$collection');
     return collection.when(
       data: (collection) {
@@ -22,17 +25,49 @@ class CollectionScreen extends ConsumerWidget {
             title: Text(collection.name),
           ),
           body: SafeArea(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: collection.collectionElements.length,
-              itemBuilder: (context, int index) {
-                final element = collection.collectionElements[index];
-                return ListTile(
-                  leading: Text('$index'),
-                  title: Text(element.element.name),
+            child: currentUser.when(
+              data: (currentUser) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: currentUser.id == collection.userId
+                      ? collection.collectionElements.length + 1
+                      : collection.collectionElements.length,
+                  itemBuilder: (context, int index) {
+                    if (index == collection.collectionElements.length && currentUser.id == collection.userId) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+
+                        ],
+                      );
+                    }
+                    final element = collection.collectionElements[index];
+                    return ListTile(
+                      leading: Text('${index + 1}'),
+                      title: Text(element.element.name),
+                    );
+                  },
                 );
               },
+              error: (error, stacktrace) => Text('Error: $error'),
+              loading: () => const Center(
+                child: SpinKitWave(
+                  color: primaryColor,
+                ),
+              ),
             ),
+          ),
+          bottomNavigationBar: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomButton(
+                text: 'Add Item',
+                width: 150,
+                height: 45,
+                fontSize: 18,
+                func: () {},
+              )
+            ],
           ),
         );
       },

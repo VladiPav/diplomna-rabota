@@ -14,6 +14,9 @@ Collection _$CollectionFromJson(Map<String, dynamic> json) => Collection(
       collectionElements: (json['collectionElements'] as List<dynamic>)
           .map((e) => CollectionElement.fromJson(e as Map<String, dynamic>))
           .toList(),
+      category: json['category'] == null
+          ? null
+          : Category.fromJson(json['category'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CollectionToJson(Collection instance) =>
@@ -22,5 +25,6 @@ Map<String, dynamic> _$CollectionToJson(Collection instance) =>
       'name': instance.name,
       'userId': instance.userId,
       'categoryId': instance.categoryId,
+      'category': instance.category,
       'collectionElements': instance.collectionElements,
     };

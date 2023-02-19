@@ -1,18 +1,15 @@
 import { Router } from 'express';
-import { Request, Response } from 'express';
-import { authMiddleware } from '../middleware/auth';
+import { categoryRouter } from './category';
 import { collectionRouter } from './collection';
 import { userRouter } from './user';
+
 const router = Router();
-
-
-router.get('/test', (req: Request, res: Response) => {
-    res.send('Working as intended');
-})
 
 
 router.use('/users', userRouter);
 
 router.use('/collections', collectionRouter);
+
+router.use('/categories', categoryRouter);
 
 export default router;

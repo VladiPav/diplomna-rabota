@@ -1,4 +1,4 @@
-import express, { Express } from 'express';
+import express, { Express, Request, Response } from 'express';
 import router from "./routes/index";
 import morganBody from 'morgan-body';
 import bodyParser from 'body-parser';
@@ -13,6 +13,11 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 morganBody(app);
+
+
+app.get('/test', (req: Request, res: Response) => {
+    res.send('Working as intended');
+})
 
 app.use('/images', express.static('images'));
 

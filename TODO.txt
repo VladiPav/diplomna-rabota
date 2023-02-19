@@ -2,6 +2,7 @@ Frontend:
  - Refresh on no followers/followed
  - Logout button on profile page
  - Add button on collection and item in collection
+ - Viewing other users' lists
 
 Backend:
 
