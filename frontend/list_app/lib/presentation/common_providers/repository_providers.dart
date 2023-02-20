@@ -4,8 +4,8 @@ import '../../data/repositories/auth_repository.dart';
 import '../../data/repositories/category_repository.dart';
 import '../../data/repositories/collection_repository.dart';
 import '../../data/repositories/user_repository.dart';
-import 'api_service_provider.dart';
 import 'auth_state_provider.dart';
+import 'common_providers.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => AuthRepository(

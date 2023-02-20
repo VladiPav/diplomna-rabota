@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../common_providers/is_following_provider.dart';
+import '../../../../common_providers/common_providers.dart';
 import '../../../../common_providers/repository_providers.dart';
 import '../../../custom_widgets/custom_button.dart';
 

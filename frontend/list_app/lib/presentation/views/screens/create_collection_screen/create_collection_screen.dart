@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../../common_providers/current_user_provider.dart';
 import '../../../common_providers/repository_providers.dart';
 import '../../../themes/themes.dart';
 import '../../../util/route_manager.dart';

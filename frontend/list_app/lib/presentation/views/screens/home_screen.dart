@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../common_providers/current_user_provider.dart';
+import '../../common_providers/common_providers.dart';
 import '../../themes/themes.dart';
 import 'following_screen/following_screen.dart';
 import 'profile_screen/widgets/profile_widget.dart';

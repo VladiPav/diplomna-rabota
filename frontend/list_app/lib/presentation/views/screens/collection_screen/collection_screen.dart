@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../models/user_model.dart';
-import '../../../common_providers/collection_provider.dart';
-import '../../../common_providers/current_user_provider.dart';
+import '../../../common_providers/common_providers.dart';
 import '../../../themes/themes.dart';
 import '../../custom_widgets/custom_button.dart';
 
