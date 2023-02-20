@@ -54,7 +54,7 @@ class CollectionsWidget extends ConsumerWidget {
                           print('COLLECTIONID:\n${collection.id}');
                           ref.read(collectionIdProvider.notifier).state =
                               collection.id;
-                          Navigator.pushNamed(context, Routes.collection);
+                          Navigator.pushNamed(context, Routes.collection, arguments: user);
                         },
                       );
                     })

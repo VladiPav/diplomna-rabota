@@ -10,7 +10,9 @@ import '../../../../../models/user_model.dart';
 import '../../../../common_providers/api_service_provider.dart';
 import '../../../../common_providers/current_user_provider.dart';
 import '../../../../common_providers/is_following_provider.dart';
+import '../../../../common_providers/repository_providers.dart';
 import '../../../../themes/themes.dart';
+import '../../../../util/route_manager.dart';
 import '../../../custom_widgets/custom_button.dart';
 import 'collections_widget.dart';
 import 'follow_button.dart';
@@ -24,6 +26,8 @@ class ProfileWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentUser = ref.watch(currentUserProvider);
     final isFollowing = ref.watch(isFollowingProvider(user.id));
+    final auth = ref.watch(authRepositoryProvider);
+
     return SafeArea(
       child: currentUser.when(
         data: (currentUser) => Center(
@@ -39,7 +43,7 @@ class ProfileWidget extends ConsumerWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: CircleAvatar(
                           foregroundImage: NetworkImage(
                             user.profileImagePath ??
@@ -49,18 +53,38 @@ class ProfileWidget extends ConsumerWidget {
                         ),
                       ),
                       if (currentUser.id == user.id)
-                        CustomButton(
-                          text: 'Change Photo',
-                          width: 80,
-                          height: 20,
-                          fontSize: 12,
-                          func: () async {
-                            XFile? xfile = await ImagePicker()
-                                .pickImage(source: ImageSource.gallery);
-                            File? file = File(xfile!.path);
-                            await UserRepository(api: ref.read(apiProvider))
-                                .uploadProfileImage(file);
-                          },
+                        Column(
+                          children: [
+                            CustomButton(
+                              text: 'Change Photo',
+                              width: 130,
+                              height: 40,
+                              fontSize: 15,
+                              func: () async {
+                                XFile? xfile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                File? file = File(xfile!.path);
+                                await UserRepository(api: ref.read(apiProvider))
+                                    .uploadProfileImage(file);
+                              },
+                            ),
+                            CustomButton(
+                              text: 'Log Out',
+                              width: 130,
+                              height: 40,
+                              fontSize: 15,
+                              func: () async {
+                                await auth
+                                    .signOut()
+                                    .then(
+                                      (value) => Navigator.popAndPushNamed(
+                                        context,
+                                        Routes.login,
+                                      ),
+                                    );
+                              },
+                            ),
+                          ],
                         )
                       else
                         isFollowing.when(
@@ -81,7 +105,7 @@ class ProfileWidget extends ConsumerWidget {
                         padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
                         child: Text(
                           user.username,
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 25),
                           textAlign: TextAlign.center,
                         ),
                       ),

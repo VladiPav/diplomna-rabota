@@ -50,6 +50,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const ProfileScreen(),
         );
+      case Routes.collection:
+        return MaterialPageRoute(
+          builder: (_) => const CollectionScreen(),
+          settings: settings,
+        );
       case Routes.createCollection:
         return MaterialPageRoute(
           builder: (_) => const CreateCollectionScreen(),

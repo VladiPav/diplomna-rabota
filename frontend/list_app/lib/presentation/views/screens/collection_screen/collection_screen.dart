@@ -9,14 +9,15 @@ import '../../../themes/themes.dart';
 import '../../custom_widgets/custom_button.dart';
 
 class CollectionScreen extends ConsumerWidget {
-  final User user;
   const CollectionScreen({
-    required this.user,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('ARGUMENTS:\n${ModalRoute.of(context)?.settings.arguments}');
+    final user = ModalRoute.of(context)?.settings.arguments as User;
+    print('USER:\n$user');
     final collection = ref.watch(collectionProvider);
     final currentUser = ref.watch(currentUserProvider);
     print('RESULT:\n$collection');
