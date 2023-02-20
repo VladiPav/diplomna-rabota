@@ -26,20 +26,49 @@ class ChooseCategoryScreen extends ConsumerWidget {
                   print('CATEGORIES:\n${categories.length}');
                   return categories.length != 0
                       ? Center(
-                        child: ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: categories.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text(categories[index].name),
-                                onTap: () {
-                                  ref.read(chosenCategoryProvider.notifier).state =
-                                      categories[index];
-                                  Navigator.pop(context);
-                                },
-                              );
-                            }),
-                      )
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: categories.length + 1,
+                              itemBuilder: (context, index) {
+                                if (index == categories.length) {
+                                  return ListTile(
+                                    title: Text("Add new category"),
+                                    leading: Icon(Icons.add),
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                          backgroundColor: Colors.transparent,
+                                          context: context,
+                                          builder: (context) {
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(30),
+                                                  topRight: Radius.circular(30),
+                                                ),
+                                              ),
+                                              child: Column(
+                                                children: [
+
+                                                ],
+                                              ),
+                                            );
+                                          });
+                                    },
+                                  );
+                                }
+                                return ListTile(
+                                  leading: Text(''),
+                                  title: Text(categories[index].name),
+                                  onTap: () {
+                                    ref
+                                        .read(chosenCategoryProvider.notifier)
+                                        .state = categories[index];
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              }),
+                        )
                       : Center(child: Text('No matching categories'));
                 },
                 error: (error, stacktrace) => Text('Error: $error'),

@@ -18,7 +18,7 @@ class CategorySearchTextField extends ConsumerWidget {
           .read(categoryTextFieldProvider.notifier)
           .update((state) => value),
       fieldColor: customGray1,
-      label: "Collection name",
+      label: "Category name",
     );
   }
 }
