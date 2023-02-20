@@ -23,41 +23,44 @@ class CollectionsWidget extends ConsumerWidget {
     return currentUser.when(
       data: (currentUser) {
         print('COLLECTIONS:\n${user.collections}');
-        return user.collections.isNotEmpty
-            ? ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: currentUser.id == user.id
-                    ? user.collections.length + 1
-                    : user.collections.length,
-                itemBuilder: (context, int index) {
-                  if (index == 0 && currentUser.id == user.id) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomButton(
-                          text: 'Add list',
-                          width: 150,
-                          height: 45,
-                          fontSize: 18,
-                          func: () {Navigator.pushNamed(context, Routes.createCollection);},
-                        )
-                      ],
-                    );
-                  }
-                  final collection = user.collections[index - 1];
-                  return ListTile(
-                    leading: Text('$index'),
-                    title: Text(collection.name ?? 'alo'),
-                    onTap: () {
-                      print('COLLECTIONID:\n${collection.id}');
-                      ref.read(collectionIdProvider.notifier).state =
-                          collection.id;
-                      Navigator.pushNamed(context, Routes.collection);
+        return Column(
+          children: [
+            if (currentUser.id == user.id)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomButton(
+                    text: 'Add list',
+                    width: 150,
+                    height: 45,
+                    fontSize: 18,
+                    func: () {
+                      Navigator.pushNamed(context, Routes.createCollection);
                     },
-                  );
-                })
-            : Center(child: Text('User currently has no collections'));
+                  )
+                ],
+              ),
+            user.collections.isNotEmpty
+                ? ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: user.collections.length,
+                    itemBuilder: (context, int index) {
+                      final collection = user.collections[index];
+                      return ListTile(
+                        leading: Text('$index'),
+                        title: Text(collection.name ?? 'alo'),
+                        onTap: () {
+                          print('COLLECTIONID:\n${collection.id}');
+                          ref.read(collectionIdProvider.notifier).state =
+                              collection.id;
+                          Navigator.pushNamed(context, Routes.collection);
+                        },
+                      );
+                    })
+                : Center(child: Text('User currently has no collections')),
+          ],
+        );
       },
       error: (error, stacktrace) => Text('Error: $error'),
       loading: () => Center(
