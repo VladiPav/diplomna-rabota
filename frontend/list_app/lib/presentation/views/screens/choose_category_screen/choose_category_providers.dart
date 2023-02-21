@@ -5,6 +5,8 @@ import '../../../common_providers/repository_providers.dart';
 
 final categoryTextFieldProvider = StateProvider<String>((ref) => '');
 
+final newCategoryTextFieldProvider = StateProvider<String>((ref) => '');
+
 final categoriesProvider = FutureProvider<List<Category>>(
   (ref) => ref.read(categoryRepositoryProvider).searchCategory(
         ref.watch(categoryTextFieldProvider),

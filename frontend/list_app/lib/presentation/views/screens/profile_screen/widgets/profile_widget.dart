@@ -26,105 +26,109 @@ class ProfileWidget extends ConsumerWidget {
     final isFollowing = ref.watch(isFollowingProvider(user.id));
     final auth = ref.watch(authRepositoryProvider);
 
-    return SafeArea(
-      child: currentUser.when(
-        data: (currentUser) => Center(
-          child: ListView(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: accentColor,
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: CircleAvatar(
-                          foregroundImage: NetworkImage(
-                            user.profileImagePath ??
-                                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
-                          ),
-                          radius: 80,
-                        ),
-                      ),
-                      if (currentUser.id == user.id)
-                        Column(
-                          children: [
-                            CustomButton(
-                              text: 'Change Photo',
-                              width: 130,
-                              height: 40,
-                              fontSize: 15,
-                              func: () async {
-                                XFile? xfile = await ImagePicker()
-                                    .pickImage(source: ImageSource.gallery);
-                                File? file = File(xfile!.path);
-                                await UserRepository(api: ref.read(apiProvider))
-                                    .uploadProfileImage(file);
-                              },
+    return RefreshIndicator(
+      color: primaryColor,
+      strokeWidth: 3,
+      onRefresh: () async => await ref.refresh(currentUserProvider),
+      child: SafeArea(
+        child: currentUser.when(
+          data: (currentUser) => Center(
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: accentColor,
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: CircleAvatar(
+                            foregroundImage: NetworkImage(
+                              user.profileImagePath ??
+                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
                             ),
-                            CustomButton(
-                              text: 'Log Out',
-                              width: 130,
-                              height: 40,
-                              fontSize: 15,
-                              func: () async {
-                                await auth
-                                    .signOut()
-                                    .then(
-                                      (value) => Navigator.popAndPushNamed(
-                                        context,
-                                        Routes.login,
-                                      ),
-                                    );
-                              },
-                            ),
-                          ],
-                        )
-                      else
-                        isFollowing.when(
-                          data: (isFollowing) {
-                            print('Hello? $isFollowing');
-                            return isFollowing
-                                ? UnfollowButton(id: user.id)
-                                : FollowButton(id: user.id);
-                          },
-                          error: (error, stacktrace) => Text('Error: $error'),
-                          loading: () => const Center(
-                            child: SpinKitWave(
-                              color: primaryColor,
-                            ),
+                            radius: 80,
                           ),
                         ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
-                        child: Text(
-                          user.username,
-                          style: TextStyle(fontSize: 25),
-                          textAlign: TextAlign.center,
+                        if (currentUser.id == user.id)
+                          Column(
+                            children: [
+                              CustomButton(
+                                text: 'Change Photo',
+                                width: 130,
+                                height: 40,
+                                fontSize: 15,
+                                func: () async {
+                                  XFile? xfile = await ImagePicker()
+                                      .pickImage(source: ImageSource.gallery);
+                                  File? file = File(xfile!.path);
+                                  await UserRepository(
+                                          api: ref.read(apiProvider))
+                                      .uploadProfileImage(file);
+                                },
+                              ),
+                              CustomButton(
+                                text: 'Log Out',
+                                width: 130,
+                                height: 40,
+                                fontSize: 15,
+                                func: () async {
+                                  await auth.signOut().then(
+                                        (value) => Navigator.popAndPushNamed(
+                                          context,
+                                          Routes.login,
+                                        ),
+                                      );
+                                },
+                              ),
+                            ],
+                          )
+                        else
+                          isFollowing.when(
+                            data: (isFollowing) {
+                              print('Hello? $isFollowing');
+                              return isFollowing
+                                  ? UnfollowButton(id: user.id)
+                                  : FollowButton(id: user.id);
+                            },
+                            error: (error, stacktrace) => Text('Error: $error'),
+                            loading: () => const Center(
+                              child: SpinKitWave(
+                                color: primaryColor,
+                              ),
+                            ),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 10, 10, 10),
+                          child: Text(
+                            user.username,
+                            style: TextStyle(fontSize: 25),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              const Divider(
-                color: primaryColor,
-                thickness: 3,
-              ),
-              CollectionsWidget(
-                user: user,
-              ),
-            ],
+                const Divider(
+                  color: primaryColor,
+                  thickness: 3,
+                ),
+                CollectionsWidget(
+                  user: user,
+                ),
+              ],
+            ),
           ),
-        ),
-        error: (error, stacktrace) => Text('Error: $error'),
-        loading: () => const Center(
-          child: SpinKitWave(
-            color: primaryColor,
+          error: (error, stacktrace) => Text('Error: $error'),
+          loading: () => const Center(
+            child: SpinKitWave(
+              color: primaryColor,
+            ),
           ),
         ),
       ),

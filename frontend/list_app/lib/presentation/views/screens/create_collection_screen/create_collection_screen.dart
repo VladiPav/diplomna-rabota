@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../common_providers/common_providers.dart';
 import '../../../common_providers/repository_providers.dart';
 import '../../../themes/themes.dart';
 import '../../../util/route_manager.dart';
@@ -8,10 +9,6 @@ import '../../custom_widgets/custom_button.dart';
 import '../choose_category_screen/choose_category_providers.dart';
 import 'create_collection_providers.dart';
 import 'widgets/collection_name_text_field.dart';
-
-final isLoadingProvider = StateProvider<bool>(
-  (ref) => false,
-);
 
 class CreateCollectionScreen extends ConsumerWidget {
   const CreateCollectionScreen({
@@ -23,6 +20,10 @@ class CreateCollectionScreen extends ConsumerWidget {
     final category = ref.watch(chosenCategoryProvider);
     final _isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

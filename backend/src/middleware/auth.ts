@@ -58,3 +58,6 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction): Pro
 }
 
 export const authMiddleware = verifyToken;
+
+
+

@@ -8,5 +8,11 @@ const Color customGray1 = Color(0xffd9d9d9);
 
 
 ThemeData getThemeData() => ThemeData(
-  useMaterial3: true
+  useMaterial3: true,
+    textSelectionTheme: TextSelectionThemeData(
+        cursorColor: primaryColor,
+        selectionHandleColor: primaryColor,
+        selectionColor: primaryColor,
+    )
 );
+

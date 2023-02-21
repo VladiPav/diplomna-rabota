@@ -6,14 +6,15 @@ const createCategory = async (name: string): Promise<Category> => {
     try {
         const categoryAlreadyExists = await prismaService.category.findFirst({
             where: {
-                name,
+                name: name,
             }
         });
+      
 
         if (categoryAlreadyExists) {
             const error = {
                 statusCode: HTTPStatusCode.BadRequest,
-                message: "category already exists",
+                message: "Category already exists",
                 internalMessage: InternalErrorMessage.BadRequest,
             };
             throw new CustomError(error);
@@ -21,7 +22,7 @@ const createCategory = async (name: string): Promise<Category> => {
 
         const category = prismaService.category.create({
             data: {
-                name,
+                name: name,
             }
         });
 

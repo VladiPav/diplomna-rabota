@@ -36,7 +36,7 @@ class CustomTextField extends StatelessWidget {
         Material(
           borderRadius: BorderRadius.circular(30),
           color: fieldColor,
-          child: TextField(
+          child: TextFormField(
             onChanged: func,
             keyboardType: inputType,
             decoration: InputDecoration(

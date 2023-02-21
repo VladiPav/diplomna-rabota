@@ -6,4 +6,6 @@ class CategoryRepository {
   CategoryRepository({required this.api,});
 
   Future<List<Category>> searchCategory(name) => api.searchCategory(name);
+
+  Future<void> createCategory(name) => api.createCategory(name);
 }

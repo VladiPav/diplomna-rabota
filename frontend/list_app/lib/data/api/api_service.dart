@@ -90,7 +90,7 @@ class ApiService {
       return (result.data as List).map((x) {
         if (x['profileImagePath'] != null) {
           x['profileImagePath'] =
-          '${dotenv.env['BASE_URL']!}/${x['profileImagePath']}';
+              '${dotenv.env['BASE_URL']!}/${x['profileImagePath']}';
         }
         return User.fromJson(x);
       }).toList();
@@ -166,7 +166,7 @@ class ApiService {
     }
   }
 
-  Future<Collection> getCollectionById(id) async {
+  Future<Collection> getCollectionById(String id) async {
     try {
       final result = await _dio.get(
         '/collections/$id',
@@ -178,7 +178,7 @@ class ApiService {
     }
   }
 
-  Future<List<Category>> searchCategory(name) async {
+  Future<List<Category>> searchCategory(String name) async {
     try {
       final result = await _dio.get(
         '/categories',
@@ -194,9 +194,9 @@ class ApiService {
   }
 
   Future<void> createCollection(
-      String name,
-      String categoryId,
-      ) async {
+    String name,
+    String categoryId,
+  ) async {
     try {
       final collection = await _dio.post(
         '/collections',
@@ -208,4 +208,15 @@ class ApiService {
     }
   }
 
+  Future<void> createCategory(String name) async {
+    try {
+      final category = await _dio.post(
+        '/categories',
+        data: {'name': name},
+      );
+      return;
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
 }

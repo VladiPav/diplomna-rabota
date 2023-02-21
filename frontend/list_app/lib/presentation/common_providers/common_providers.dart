@@ -24,10 +24,14 @@ final currentUserProvider = FutureProvider.autoDispose<User>(
       (ref) => ref.read(userRepositoryProvider).getCurrentUser(),
 );
 
-final isFollowingProvider = FutureProvider.family(
+final isFollowingProvider = FutureProvider.autoDispose.family(
       (ref, id) => ref.read(userRepositoryProvider).isFollowing(id),
 );
 
 final ScreenUserProvider = Provider<User?>(
-        (ref) => null
+        (ref) => null,
+);
+
+final isLoadingProvider = StateProvider<bool>(
+      (ref) => false,
 );

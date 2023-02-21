@@ -3,12 +3,15 @@ import { categoryService } from '../services/category';
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
 
 
-const createCategory = (req: Request, res: Response) => {
+const createCategory = async (req: Request, res: Response) => {
     try {
         const {
             name,
         } = req.body;
 
+        const category = await categoryService.createCategory(name);
+
+        res.status(HTTPStatusCode.Created).send(category);
 
     } catch (e) {
         console.log(e);
