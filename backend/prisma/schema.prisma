@@ -3,9 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Category {
@@ -30,11 +30,11 @@ model Collection {
 }
 
 model Element {
-  id                String              @id @default(uuid()) @db.VarChar(256)
-  name              String
-  category          Category            @relation(fields: [categoryId], references: [id])
-  categoryId        String              @map("category_id")
-  CollectionElement CollectionElement[] @relation("elements")
+  id                 String              @id @default(uuid()) @db.VarChar(256)
+  name               String
+  category           Category            @relation(fields: [categoryId], references: [id])
+  categoryId         String              @map("category_id")
+  collectionElements CollectionElement[] @relation("elements")
 
   @@map("element")
 }

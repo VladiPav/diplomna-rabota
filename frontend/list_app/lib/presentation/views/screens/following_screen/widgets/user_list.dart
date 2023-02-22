@@ -43,12 +43,14 @@ class UserList extends ConsumerWidget {
                 ),
               ),
             )
-          : Text(
-              'No followed users',
-              style: TextStyle(
-                fontSize: 20,
+          : Center(
+            child: Text(
+                'none',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-            ),
+          ),
     );
   }
 }

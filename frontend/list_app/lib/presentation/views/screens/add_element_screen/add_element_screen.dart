@@ -137,6 +137,7 @@ class AddElementScreen extends ConsumerWidget {
                                     elements[index].id,
                                     collection.id,
                                     (collection.collectionElements.length + 1).toString());
+                            ref.invalidate(collectionProvider);
                             ref.read(isLoadingProvider.notifier).state = false;
                             Navigator.pop(context);
                           },

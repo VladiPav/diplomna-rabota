@@ -227,13 +227,14 @@ class ApiService {
     }
   }
 
-  Future<List<Element>> searchElement(String name, String categoryId) async {
+  Future<List<Element>> searchElement(String name, String categoryId, String collectionId) async {
     try {
       final result = await _dio.get(
         '/elements',
         queryParameters: {
           'name': name,
           'categoryId': categoryId,
+          'collectionId': collectionId,
         },
       );
 

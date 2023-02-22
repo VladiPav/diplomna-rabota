@@ -52,7 +52,7 @@ const createElement = async (name: string, categoryId: string): Promise<Element>
     }
 }
 
-const getElementsByCategory = async (categoryId: string, query?: string): Promise<Element[]> => {
+const getElementsByCategory = async (categoryId: string, query?: string, collectionId?: string): Promise<Element[]> => {
     try {
 
         const category = await prismaService.category.findFirst({
@@ -69,16 +69,24 @@ const getElementsByCategory = async (categoryId: string, query?: string): Promis
             };
             throw new CustomError(error);
         }
-
+        console.log(collectionId);
 
         const elements = await prismaService.element.findMany({
             where: {
                 categoryId: categoryId,
                 name: {
                     contains: query,
+                },
+                collectionElements: {
+                    every: {
+                        NOT: {
+                            collectionId: collectionId,
+                        }
+                    }
                 }
-            }
+            },
         });
+
 
         return elements;
 

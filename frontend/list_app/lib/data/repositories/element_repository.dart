@@ -9,8 +9,10 @@ class ElementRepository {
 
   // Future<Element> getElementById(id) => api.getElementById(id);
 
-  Future<void> createElement(name, categoryId) =>
+  Future<void> createElement(String name, String categoryId) =>
       api.createElement(name, categoryId);
 
-  Future<List<Element>> searchElement(name, categoryId) => api.searchElement(name, categoryId);
+  Future<List<Element>> searchElement(
+          String name, String categoryId, String collectionId) =>
+      api.searchElement(name, categoryId, collectionId);
 }

@@ -14,7 +14,7 @@ final collectionIdProvider = StateProvider<String>(
       (ref) => '',
 );
 
-final collectionProvider = FutureProvider<Collection>(
+final collectionProvider = FutureProvider.autoDispose<Collection>(
       (ref) => ref
       .read(collectionRepositoryProvider)
       .getCollectionById(ref.watch(collectionIdProvider)),

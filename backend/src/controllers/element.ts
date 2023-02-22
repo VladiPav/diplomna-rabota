@@ -32,12 +32,22 @@ const getElementsByCategory = async (req: Request, res: Response) => {
         const {
             name,
             categoryId,
+            collectionId,
         } = req.query;
 
         if (typeof name !== 'string' && typeof name !== 'undefined') {
             const error = {
                 statusCode: HTTPStatusCode.BadRequest,
                 message: 'Invalid query parameter "name"',
+                internalMessage: InternalErrorMessage.BadRequest,
+            };
+            throw new CustomError(error);
+        }
+
+        if (typeof collectionId !== 'string' && typeof collectionId !== 'undefined') {
+            const error = {
+                statusCode: HTTPStatusCode.BadRequest,
+                message: 'Invalid query parameter "collectionId"',
                 internalMessage: InternalErrorMessage.BadRequest,
             };
             throw new CustomError(error);
@@ -52,7 +62,7 @@ const getElementsByCategory = async (req: Request, res: Response) => {
             throw new CustomError(error);
         }
 
-        const elements = await elementService.getElementsByCategory(categoryId, name);
+        const elements = await elementService.getElementsByCategory(categoryId, name, collectionId);
 
         res.status(HTTPStatusCode.Ok).send(elements);
 
