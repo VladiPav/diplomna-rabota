@@ -13,6 +13,7 @@ ThemeData getThemeData() => ThemeData(
         cursorColor: primaryColor,
         selectionHandleColor: primaryColor,
         selectionColor: primaryColor,
-    )
+    ),
+  applyElevationOverlayColor: false,
 );
 

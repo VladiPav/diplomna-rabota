@@ -45,15 +45,19 @@ class CollectionsWidget extends ConsumerWidget {
                     itemCount: user.collections.length,
                     itemBuilder: (context, int index) {
                       final collection = user.collections[index];
-                      return ListTile(
-                        leading: Text('$index'),
-                        title: Text(collection.name ?? 'alo'),
-                        onTap: () {
-                          print('COLLECTIONID:\n${collection.id}');
-                          ref.read(collectionIdProvider.notifier).state =
-                              collection.id;
-                          Navigator.pushNamed(context, Routes.collection, arguments: user);
-                        },
+                      return Card(
+                        surfaceTintColor: Colors.transparent,
+                        child: ListTile(
+                          leading: Text('$index'),
+                          title: Text(collection.name ?? 'alo'),
+                          onTap: () {
+                            print('COLLECTIONID:\n${collection.id}');
+                            ref.read(collectionIdProvider.notifier).state =
+                                collection.id;
+                            Navigator.pushNamed(context, Routes.collection,
+                                arguments: user);
+                          },
+                        ),
                       );
                     })
                 : Center(child: Text('User currently has no collections')),

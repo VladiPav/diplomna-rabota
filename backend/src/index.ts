@@ -1,11 +1,17 @@
 import express, { Express, Request, Response } from 'express';
+import * as admin from "firebase-admin";
 import router from "./routes/index";
 import morganBody from 'morgan-body';
 import bodyParser from 'body-parser';
 import { initializeApp } from "firebase-admin/app";
 import { authMiddleware } from './middleware/auth';
 
-initializeApp();
+
+const serviceAccount = JSON.parse(
+    process.env.GOOGLE_APPLICATION_CREDENTIALS as string
+);
+
+initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 const app: Express = express();
 

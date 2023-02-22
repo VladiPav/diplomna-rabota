@@ -1,4 +1,5 @@
 import '../../models/collection_model.dart';
+import '../../models/element_model.dart';
 import '../api/api_service.dart';
 
 class CollectionRepository {
@@ -11,4 +12,8 @@ class CollectionRepository {
 
   Future<void> createCollection(name, categoryId) =>
       api.createCollection(name, categoryId);
+
+  Future<void> addElement(
+          String elementId, String collectionId, String position) =>
+      api.addElementToCollection(elementId, collectionId, position);
 }

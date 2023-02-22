@@ -36,11 +36,11 @@ const createElement = async (name: string, categoryId: string): Promise<Element>
             throw new CustomError(error);
         }
 
-        const element = prismaService.element.create({
+        const element = await prismaService.element.create({
             data: {
                 name,
                 category: {
-                    connect: category
+                    connect: { id: category.id },
                 }
             }
         });
@@ -50,4 +50,44 @@ const createElement = async (name: string, categoryId: string): Promise<Element>
     } catch (error) {
         throw error;
     }
+}
+
+const getElementsByCategory = async (categoryId: string, query?: string): Promise<Element[]> => {
+    try {
+
+        const category = await prismaService.category.findFirst({
+            where: {
+                id: categoryId,
+            }
+        });
+
+        if (!category) {
+            const error = {
+                statusCode: HTTPStatusCode.BadRequest,
+                message: "Category not found",
+                internalMessage: InternalErrorMessage.BadRequest,
+            };
+            throw new CustomError(error);
+        }
+
+
+        const elements = await prismaService.element.findMany({
+            where: {
+                categoryId: categoryId,
+                name: {
+                    contains: query,
+                }
+            }
+        });
+
+        return elements;
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const elementService = {
+    createElement,
+    getElementsByCategory,
 }

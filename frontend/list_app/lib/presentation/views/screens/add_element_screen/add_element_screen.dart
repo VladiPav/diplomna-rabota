@@ -2,38 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import '../../../../models/collection_model.dart';
 import '../../../common_providers/common_providers.dart';
 import '../../../common_providers/repository_providers.dart';
 import '../../../themes/themes.dart';
-import '../../custom_widgets/custom_button.dart';
 import '../../custom_widgets/custom_text_field.dart';
-import 'choose_category_providers.dart';
-import 'widgets/category_search_field.dart';
+import 'add_element_providers.dart';
+import 'widgets/element_search_field.dart';
 
-class ChooseCategoryScreen extends ConsumerWidget {
-  const ChooseCategoryScreen({
+class AddElementScreen extends ConsumerWidget {
+  const AddElementScreen({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final categories = ref.watch(categoriesProvider);
+    final collection = ModalRoute.of(context)?.settings.arguments as Collection;
+    final elements = ref.watch(elementsProvider(collection.categoryId));
     final _isLoading = ref.watch(isLoadingProvider);
     return Scaffold(
         appBar: AppBar(),
         body: Column(
           children: [
-            CategorySearchTextField(),
-            categories.when(
-              data: (categories) {
+            ElementSearchTextField(),
+            elements.when(
+              data: (elements) {
                 return Expanded(
                   child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: categories.length + 1,
+                      itemCount: elements.length + 1,
                       itemBuilder: (context, index) {
-                        if (index == categories.length) {
+                        if (index == elements.length) {
                           return ListTile(
-                            title: Text("Add new category"),
+                            title: Text("Add new item"),
                             leading: Icon(Icons.add),
                             onTap: () {
                               showModalBottomSheet(
@@ -50,10 +51,10 @@ class ChooseCategoryScreen extends ConsumerWidget {
                                     children: [
                                       CustomTextField(
                                           inputType: TextInputType.name,
-                                          hintText: 'e.g. Movies',
+                                          hintText: 'e.g. Divine comedy',
                                           obscure: false,
                                           func: (value) => ref
-                                              .read(newCategoryTextFieldProvider
+                                              .read(newElementTextFieldProvider
                                                   .notifier)
                                               .update((state) => value),
                                           fieldColor: customGray1,
@@ -71,13 +72,14 @@ class ChooseCategoryScreen extends ConsumerWidget {
                                                       .state = true;
                                                   await ref
                                                       .read(
-                                                          categoryRepositoryProvider)
-                                                      .createCategory(
+                                                          elementRepositoryProvider)
+                                                      .createElement(
                                                         ref.watch(
-                                                            newCategoryTextFieldProvider),
+                                                            newElementTextFieldProvider),
+                                                        collection.categoryId,
                                                       );
                                                   ref.invalidate(
-                                                      categoriesProvider);
+                                                      elementsProvider);
                                                   ref
                                                       .read(isLoadingProvider
                                                           .notifier)
@@ -112,7 +114,7 @@ class ChooseCategoryScreen extends ConsumerWidget {
                                                 )
                                               : const Icon(Icons.create),
                                           label: const Text(
-                                            'Create Category',
+                                            'Create Item',
                                             style: TextStyle(fontSize: 18),
                                           ),
                                         ),
@@ -126,10 +128,10 @@ class ChooseCategoryScreen extends ConsumerWidget {
                         }
                         return ListTile(
                           leading: Text(''),
-                          title: Text(categories[index].name),
+                          title: Text(elements[index].name),
                           onTap: () {
-                            ref.read(chosenCategoryProvider.notifier).state =
-                                categories[index];
+                            ref.read(chosenElementProvider.notifier).state =
+                                elements[index];
                             Navigator.pop(context);
                           },
                         );

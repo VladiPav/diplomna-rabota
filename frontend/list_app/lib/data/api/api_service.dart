@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../../models/category_model.dart';
 import '../../models/collection_model.dart';
+import '../../models/element_model.dart';
 import '../../models/user_model.dart';
 import 'auth_interseptor.dart';
 
@@ -40,19 +41,14 @@ class ApiService {
 
   Future<List<User>> getFollowers() async {
     try {
-      print('TRYING TO GET FOLLOWERS');
-
       final followers = await _dio.get(
         '/users/followers',
       );
-      print('FOLLOWERS:\n$followers');
       return (followers.data as List).map((x) {
         if (x['follower']['profileImagePath'] != null) {
           x['follower']['profileImagePath'] =
               '${dotenv.env['BASE_URL']!}/${x['follower']['profileImagePath']}';
         }
-        print('X:\n${x["followed"]}');
-
         return User.fromJson(x['follower']);
       }).toList();
     } catch (error, stacktrace) {
@@ -62,11 +58,9 @@ class ApiService {
 
   Future<List<User>> getFollowing() async {
     try {
-      print('TRYING TO FOLLOWING');
       final following = await _dio.get(
         '/users/following',
       );
-      print('FOLLOWING:\n$following');
       return (following.data as List).map((x) {
         if (x['followed']['profileImagePath'] != null) {
           x['followed']['profileImagePath'] =
@@ -130,7 +124,6 @@ class ApiService {
     final FormData formData = FormData.fromMap({
       "image": await MultipartFile.fromFile(file.path, filename: fileName),
     });
-    print('FILE:\n\n${fileName}');
     final response = await _dio.post('/users/me/profile-image', data: formData);
   }
 
@@ -139,7 +132,6 @@ class ApiService {
       final result = await _dio.get(
         '/users/$id/following',
       );
-      print('ALOU: $result');
       return result.data as bool;
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
@@ -214,6 +206,54 @@ class ApiService {
         '/categories',
         data: {'name': name},
       );
+      return;
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
+  Future<void> createElement(String name, String categoryId) async {
+    try {
+      final category = await _dio.post(
+        '/elements',
+        data: {
+          'name': name,
+          'categoryId': categoryId
+        },
+      );
+      return;
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
+  Future<List<Element>> searchElement(String name, String categoryId) async {
+    try {
+      final result = await _dio.get(
+        '/elements',
+        queryParameters: {
+          'name': name,
+          'categoryId': categoryId,
+        },
+      );
+
+      return (result.data as List).map((x) => Element.fromJson(x)).toList();
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
+  Future<void> addElementToCollection(
+      String elementId, String collectionId, String position) async {
+    try {
+      final result = await _dio.post(
+        '/collections/$collectionId/elements',
+        data: {
+          'elementId': elementId,
+          'position': position
+        },
+      );
+
       return;
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");

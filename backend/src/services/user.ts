@@ -49,12 +49,12 @@ const createUser = async (userCreateInfo: UserCreateInfo): Promise<User> => {
   }
 }
 
-const getAllUsers = async (currentUser: User, search?: string) => {
+const getAllUsers = async (currentUser: User, query?: string) => {
   try {
     let users = await prismaService.user.findMany({
       where: {
         username: {
-          contains: search,
+          contains: query,
           mode: 'insensitive',
         },
         NOT: {
@@ -64,9 +64,9 @@ const getAllUsers = async (currentUser: User, search?: string) => {
       include: {
         collections: {
           include: {
-            collectionElements:{
-              include:{
-                element:true,
+            collectionElements: {
+              include: {
+                element: true,
               }
             }
           }

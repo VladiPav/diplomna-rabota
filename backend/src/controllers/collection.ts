@@ -58,6 +58,52 @@ const getCollectionById = async (req: Request, res: Response) => {
     }
 }
 
+const addElementToCollection = async (req: Request, res: Response) => {
+    try {
+        const {
+            id,
+        } = req.params;
+
+        if (!id) {
+            const error = {
+                statusCode: HTTPStatusCode.BadRequest,
+                message: "You must provide collection id",
+                internalMessage: InternalErrorMessage.BadRequest,
+            };
+            throw new CustomError(error);
+        }
+
+        const {
+            elementId,
+            position,
+        } = req.body;
+
+        if (!elementId || !position) {
+            const error = {
+                statusCode: HTTPStatusCode.BadRequest,
+                message: "You must provide elementId and position",
+                internalMessage: InternalErrorMessage.BadRequest,
+            };
+            throw new CustomError(error);
+        }
+
+        const collection = await collectionService.getCollectionById(id);
+
+
+
+        res.status(HTTPStatusCode.Ok).json(collection);
+
+    } catch (e) {
+        console.log(e);
+        if (e instanceof CustomError) {
+            res.status(e.statusCode).send(e.message);
+        } else {
+            res.send(e).status(HTTPStatusCode.InternalServerError);
+        }
+    }
+}
+
+
 export const collectionController = {
     createCollection,
     getCollectionById,

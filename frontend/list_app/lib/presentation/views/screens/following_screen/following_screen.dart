@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../themes/themes.dart';
+import '../../../util/route_manager.dart';
 import './following_provider.dart';
+import 'widgets/user_list.dart';
 import 'widgets/user_search_delegate.dart';
 
 class FollowingScreen extends ConsumerWidget {
@@ -111,78 +113,16 @@ class FollowingScreen extends ConsumerWidget {
                         child: TabBarView(
                           children: [
                             following.when(
-                              data: (following) {
-                                print('ACTUAL FOLLOWING:\n$following');
-                                return RefreshIndicator(
-                                  color: primaryColor,
-                                  strokeWidth: 3,
-                                  onRefresh: () async =>
-                                      await ref.refresh(followingProvider),
-                                  child: following.length != 0
-                                      ? ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: following.length,
-                                          itemBuilder: (context, index) =>
-                                              Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                20, 10, 20, 0),
-                                            child: Row(
-                                              children: [
-                                                CircleAvatar(
-                                                  backgroundImage: NetworkImage(
-                                                      following[index]
-                                                              .profileImagePath ??
-                                                          'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
-                                                ),
-                                                Text(following[index].username),
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      : Text(
-                                          'No followed users',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                );
-                              },
-                              error: (error, stacktrace) =>
-                                  Text('Error: $error'),
-                              loading: () => Center(
-                                child: SpinKitWave(
-                                  color: primaryColor,
-                                ),
-                              ),
-                            ),
+                                data: (following) {
+                                  return UserList(usersList: following);
+                                },
+                                error: (error, stacktrace) =>
+                                    Text('Error: $error'),
+                                loading: () => Center(
+                                    child: SpinKitWave(color: primaryColor))),
                             followers.when(
                               data: (followers) {
-                                print('ACTUAL FOLLOWERS:\n$following');
-                                return RefreshIndicator(
-                                  color: primaryColor,
-                                  strokeWidth: 3,
-                                  onRefresh: () async =>
-                                      await ref.refresh(followersProvider),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: followers.length,
-                                    itemBuilder: (context, index) => Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          20, 10, 20, 0),
-                                      child: Row(
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                followers[index]
-                                                        .profileImagePath ??
-                                                    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
-                                          ),
-                                          Text(followers[index].username),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
+                                return UserList(usersList: followers);
                               },
                               error: (error, stacktrace) =>
                                   Text('Error: $error'),
