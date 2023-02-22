@@ -83,7 +83,25 @@ const getCollectionById = async (id: string) => {
   }
 }
 
+const addElementToCollection = async(elementId: string, collectionId: string, position: string) => {
+  try {
+    const collectionElement = await prismaService.collectionElement.create({
+      data: {
+        elementId: elementId,
+        collectionId: collectionId,
+        position:position,
+      },
+    });
+
+    return collectionElement;
+
+  } catch (e) {
+    throw e;
+  }
+}
+
 export const collectionService = {
   createCollection,
   getCollectionById,
+  addElementToCollection,
 }

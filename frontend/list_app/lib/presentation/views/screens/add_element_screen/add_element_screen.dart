@@ -129,9 +129,15 @@ class AddElementScreen extends ConsumerWidget {
                         return ListTile(
                           leading: Text(''),
                           title: Text(elements[index].name),
-                          onTap: () {
-                            ref.read(chosenElementProvider.notifier).state =
-                                elements[index];
+                          onTap: () async {
+                            ref.read(isLoadingProvider.notifier).state = true;
+                            await ref
+                                .read(collectionRepositoryProvider)
+                                .addElement(
+                                    elements[index].id,
+                                    collection.id,
+                                    (collection.collectionElements.length + 1).toString());
+                            ref.read(isLoadingProvider.notifier).state = false;
                             Navigator.pop(context);
                           },
                         );

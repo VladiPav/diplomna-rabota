@@ -60,11 +60,9 @@ const getCollectionById = async (req: Request, res: Response) => {
 
 const addElementToCollection = async (req: Request, res: Response) => {
     try {
-        const {
-            id,
-        } = req.params;
+        const collectionId = req.params.id;
 
-        if (!id) {
+        if (!collectionId) {
             const error = {
                 statusCode: HTTPStatusCode.BadRequest,
                 message: "You must provide collection id",
@@ -87,11 +85,13 @@ const addElementToCollection = async (req: Request, res: Response) => {
             throw new CustomError(error);
         }
 
-        const collection = await collectionService.getCollectionById(id);
+        // const collection = await collectionService.getCollectionById(collectionId);
+        
+        const result = await collectionService.addElementToCollection(elementId, collectionId, position);
 
 
 
-        res.status(HTTPStatusCode.Ok).json(collection);
+        res.status(HTTPStatusCode.Created).json(result);
 
     } catch (e) {
         console.log(e);
@@ -107,4 +107,5 @@ const addElementToCollection = async (req: Request, res: Response) => {
 export const collectionController = {
     createCollection,
     getCollectionById,
+    addElementToCollection,
 }
