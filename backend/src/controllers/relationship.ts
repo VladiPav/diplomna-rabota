@@ -12,9 +12,8 @@ const follow = async (req: Request, res: Response) => {
         res.status(HTTPStatusCode.Created).send(result);
 
     } catch (e) {
-        console.log(e);
-
         if (e instanceof CustomError) {
+            console.log(e);
             res.status(e.statusCode).send(e.message);
         } else {
             res.status(HTTPStatusCode.InternalServerError).send(e);
@@ -28,13 +27,13 @@ const unfollow = async (req: Request, res: Response) => {
 
         const followedId = req.params.id;
 
-        relationshipService.unfollow(res.locals.currentUser, followedId);
+        await relationshipService.unfollow(res.locals.currentUser, followedId);
 
-        res.status(HTTPStatusCode.Ok).send();
+        res.status(200).send();
 
     } catch (e) {
-        console.log(e);
         if (e instanceof CustomError) {
+            console.log(e);
             res.status(e.statusCode).send(e.message);
         } else {
             res.status(HTTPStatusCode.InternalServerError).send(e);
@@ -51,7 +50,7 @@ const getFollowedUsers = async (req: Request, res: Response) => {
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
-            res.send(e).status(HTTPStatusCode.InternalServerError);
+            res.status(HTTPStatusCode.InternalServerError).send(e);
         }
     }
 }
@@ -66,7 +65,7 @@ const getFollowingUsers = async (req: Request, res: Response) => {
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
-            res.send(e).status(HTTPStatusCode.InternalServerError);
+            res.status(HTTPStatusCode.InternalServerError).send(e);
         }
     }
 }
@@ -92,7 +91,7 @@ const isFollowing = async (req: Request, res: Response) => {
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
-            res.send(e).status(HTTPStatusCode.InternalServerError);
+            res.status(HTTPStatusCode.InternalServerError).send(e);
         }
     }
 }

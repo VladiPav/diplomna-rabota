@@ -33,11 +33,13 @@ interface CustomErrorConstructor {
 }
 
 export class CustomError extends Error {
+  readonly message: string;
   readonly statusCode: HTTPStatusCode;
   readonly internalMessage: InternalErrorMessage;
 
   constructor(args: CustomErrorConstructor) {
     super(args.message);
+    this.message = args.message;
     this.statusCode = args.statusCode;
     this.internalMessage = args.internalMessage;
 

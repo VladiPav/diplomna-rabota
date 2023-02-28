@@ -18,7 +18,7 @@ const createCategory = async (req: Request, res: Response) => {
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
-            res.send(e).status(HTTPStatusCode.InternalServerError);
+            res.status(HTTPStatusCode.InternalServerError).send(e);
         }
     }
 }

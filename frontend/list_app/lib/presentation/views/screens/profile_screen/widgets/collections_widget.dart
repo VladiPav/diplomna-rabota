@@ -48,7 +48,7 @@ class CollectionsWidget extends ConsumerWidget {
                       return Card(
                         surfaceTintColor: Colors.transparent,
                         child: ListTile(
-                          leading: Text('$index'),
+                          leading: Text('${collection.collectionElements.length}'),
                           title: Text(collection.name ?? 'alo'),
                           onTap: () {
                             print('COLLECTIONID:\n${collection.id}');

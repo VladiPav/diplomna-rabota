@@ -25,11 +25,10 @@ const createUser = async (req: Request, res: Response) => {
     res.send(user);
 
   } catch (e) {
-    console.log(e);
     if (e instanceof CustomError) {
       res.status(e.statusCode).send(e.message);
     } else {
-      res.send(e).status(HTTPStatusCode.InternalServerError);
+      res.status(HTTPStatusCode.InternalServerError).send(e);
     }
   }
 

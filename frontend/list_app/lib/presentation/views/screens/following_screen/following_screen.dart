@@ -114,7 +114,21 @@ class FollowingScreen extends ConsumerWidget {
                           children: [
                             following.when(
                                 data: (following) {
-                                  return UserList(usersList: following);
+                                  return following.length != 0
+                                      ? UserList(usersList: following)
+                                      : RefreshIndicator(
+                                          child: Center(
+                                            child: Text(
+                                              'You have no followed users',
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ),
+                                          onRefresh: () async {
+                                            ref.invalidate(followersProvider);
+                                          },
+                                        );
                                 },
                                 error: (error, stacktrace) =>
                                     Text('Error: $error'),
@@ -122,7 +136,21 @@ class FollowingScreen extends ConsumerWidget {
                                     child: SpinKitWave(color: primaryColor))),
                             followers.when(
                               data: (followers) {
-                                return UserList(usersList: followers);
+                                return followers.length != 0
+                                    ? UserList(usersList: followers)
+                                    : RefreshIndicator(
+                                        child: Center(
+                                          child: Text(
+                                            'You have no followers',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                        onRefresh: () async {
+                                          ref.invalidate(followersProvider);
+                                        },
+                                      );
                               },
                               error: (error, stacktrace) =>
                                   Text('Error: $error'),

@@ -22,7 +22,7 @@ const createElement = async (req: Request, res: Response) => {
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
-            res.send(e).status(HTTPStatusCode.InternalServerError);
+            res.status(HTTPStatusCode.InternalServerError).send(e);
         }
     }
 }
@@ -76,6 +76,16 @@ const getElementsByCategory = async (req: Request, res: Response) => {
     }
 }
 
+const deleteElement = async  (req: Request, res: Response) => {
+  try {
+  } catch(e) {
+    if (e instanceof CustomError) {
+      res.status(e.statusCode).send(e.message);
+    } else {
+      res.status(HTTPStatusCode.InternalServerError).send(e);
+    }
+  }
+}
 export const elementController = {
     createElement,
     getElementsByCategory,

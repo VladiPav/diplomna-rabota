@@ -23,34 +23,24 @@ class UserList extends ConsumerWidget {
         await ref.refresh(followingProvider);
         await ref.refresh(followersProvider);
       },
-      child: usersList.length != 0
-          ? ListView.builder(
-              shrinkWrap: true,
-              itemCount: usersList.length,
-              itemBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(usersList[index]
-                            .profileImagePath ??
-                        'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
-                  ),
-                  title: Text(usersList[index].username),
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.profile,
-                        arguments: usersList[index]);
-                  },
-                ),
-              ),
-            )
-          : Center(
-            child: Text(
-                'none',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
-              ),
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: usersList.length,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(usersList[index].profileImagePath ??
+                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+            ),
+            title: Text(usersList[index].username),
+            onTap: () {
+              Navigator.pushNamed(context, Routes.profile,
+                  arguments: usersList[index]);
+            },
           ),
+        ),
+      ),
     );
   }
 }

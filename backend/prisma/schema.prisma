@@ -40,7 +40,7 @@ model Element {
 }
 
 model CollectionElement {
-  collection   Collection @relation(fields: [collectionId], references: [id])
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   collectionId String     @map("collection_id")
   element      Element    @relation("elements", fields: [elementId], references: [id])
   elementId    String     @map("element_id")
