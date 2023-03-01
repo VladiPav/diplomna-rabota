@@ -44,8 +44,8 @@ const createUser = async (userCreateInfo: UserCreateInfo): Promise<User> => {
 
     return user;
 
-  } catch (error) {
-    throw error;
+  } catch (e) {
+    throw e;
   }
 }
 
@@ -75,8 +75,8 @@ const getAllUsers = async (currentUser: User, query?: string) => {
     });
     return users;
 
-  } catch (error) {
-    throw error;
+  } catch (e) {
+    throw e;
   }
 }
 
@@ -95,8 +95,8 @@ const getUserById = async (id: string) => {
 
     return user;
 
-  } catch (error) {
-    throw error;
+  } catch (e) {
+    throw e;
   }
 }
 

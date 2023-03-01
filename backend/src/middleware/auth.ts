@@ -6,55 +6,55 @@ import { prismaService } from '../services/prisma-service';
 
 
 const verifyToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
+  try {
 
-        if (req.path == '/users' && req.method == 'POST') {
-            return next();
-        }
+    if (req.path == '/users' && req.method == 'POST') {
+      return next();
+    }
 
-        const header = req.headers.authorization;
-        const token = header?.split(' ')[1];
+    const header = req.headers.authorization;
+    const token = header?.split(' ')[1];
 
-        if (!token) {
-            const error = {
-                statusCode: HTTPStatusCode.Forbidden,
-                message: "No auth token",
-                internalMessage: InternalErrorMessage.BadRequest,
-            };
-            throw new CustomError(error);
-        }
+    if (!token) {
+      const error = {
+        statusCode: HTTPStatusCode.Forbidden,
+        message: "No auth token",
+        internalMessage: InternalErrorMessage.BadRequest,
+      };
+      throw new CustomError(error);
+    }
 
 
-        const decodedToken = await getAuth().verifyIdToken(token);
-        console.log(token);
+    const decodedToken = await getAuth().verifyIdToken(token);
+    console.log(token);
 
-        res.locals.currentUser = await prismaService.user.findFirst({
-            where: {
-                firebaseId: decodedToken.uid
-            },
-            include: {
-              collections: {
-                include: {
-                  collectionElements: {
-                    include: {
-                      element: true,
-                    },
-                  },
-                },
+    res.locals.currentUser = await prismaService.user.findFirst({
+      where: {
+        firebaseId: decodedToken.uid
+      },
+      include: {
+        collections: {
+          include: {
+            collectionElements: {
+              include: {
+                element: true,
               },
             },
-        });
+          },
+        },
+      },
+    });
 
-        return next()
+    return next()
 
-    } catch (error) {
-        console.log(error);
-        if (error instanceof CustomError) {
-            res.status(error.statusCode).send(error.message);
-        } else {
-            res.status(HTTPStatusCode.InternalServerError).send(error);
-        }
+  } catch (e) {
+    console.log(e);
+    if (e instanceof CustomError) {
+      res.status(e.statusCode).send(e.message);
+    } else {
+      res.status(HTTPStatusCode.InternalServerError).send(e);
     }
+  }
 }
 
 export const authMiddleware = verifyToken;

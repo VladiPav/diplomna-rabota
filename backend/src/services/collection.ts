@@ -37,8 +37,8 @@ const createCollection = async (name: string, userId: string, categoryId: string
 
     return collection;
 
-  } catch (error) {
-    throw error;
+  } catch (e) {
+    throw e;
   }
 }
 
@@ -55,8 +55,8 @@ const reorderCollection = async (collectionId: string, newPostitions: string[]) 
     //         });
     //     }
     // })
-  } catch (error) {
-    throw error;
+  } catch (e) {
+    throw e;
   }
 }
 
@@ -83,13 +83,13 @@ const getCollectionById = async (id: string) => {
   }
 }
 
-const addElementToCollection = async(elementId: string, collectionId: string, position: string) => {
+const addElementToCollection = async (elementId: string, collectionId: string, position: string) => {
   try {
     const collectionElement = await prismaService.collectionElement.create({
       data: {
         elementId: elementId,
         collectionId: collectionId,
-        position:position,
+        position: position,
       },
     });
 
@@ -100,8 +100,36 @@ const addElementToCollection = async(elementId: string, collectionId: string, po
   }
 }
 
+const removeElementFromCollection = async (elementId: string, collectionId: string) => {
+  try {
+
+    const result = await prismaService.collectionElement.deleteMany({
+      where: {
+        elementId: elementId,
+        collectionId: collectionId,
+      }
+    });
+
+    return result;
+
+  } catch (e) {
+    throw e;
+  }
+}
+
+const deleteCollection = async (id: string) => {
+  try {
+
+  } catch (e) {
+    throw e;
+  }
+}
+
+
 export const collectionService = {
   createCollection,
   getCollectionById,
   addElementToCollection,
+  removeElementFromCollection,
+  deleteCollection,
 }

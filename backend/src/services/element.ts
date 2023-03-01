@@ -47,8 +47,8 @@ const createElement = async (name: string, categoryId: string): Promise<Element>
 
         return element;
 
-    } catch (error) {
-        throw error;
+    } catch (e) {
+        throw e;
     }
 }
 
@@ -90,8 +90,16 @@ const getElementsByCategory = async (categoryId: string, query?: string, collect
 
         return elements;
 
-    } catch (error) {
-        throw error;
+    } catch (e) {
+        throw e;
+    }
+}
+
+const deleteElement = async () => {
+    try {
+
+    } catch (e) {
+        throw e;
     }
 }
 

@@ -86,7 +86,7 @@ const addElementToCollection = async (req: Request, res: Response) => {
         }
 
         // const collection = await collectionService.getCollectionById(collectionId);
-        
+
         const result = await collectionService.addElementToCollection(elementId, collectionId, position);
 
 
@@ -94,7 +94,42 @@ const addElementToCollection = async (req: Request, res: Response) => {
         res.status(HTTPStatusCode.Created).json(result);
 
     } catch (e) {
-        console.log(e);
+        if (e instanceof CustomError) {
+            res.status(e.statusCode).send(e.message);
+        } else {
+            res.status(HTTPStatusCode.InternalServerError).send(e);
+        }
+    }
+}
+
+const removeElementFromCollection = async (req: Request, res: Response) => {
+    try {
+
+        const { elementId, collectionId } = req.params;
+
+        await collectionService.removeElementFromCollection(elementId, collectionId);
+
+        res.status(HTTPStatusCode.Ok).send();
+
+    } catch (e) {
+        if (e instanceof CustomError) {
+            res.status(e.statusCode).send(e.message);
+        } else {
+            res.status(HTTPStatusCode.InternalServerError).send(e);
+        }
+    }
+}
+
+const deleteCollection = async (req: Request, res: Response) => {
+    try {
+
+        const { id } = req.params;
+
+        await collectionService.deleteCollection(id);
+
+        res.status(HTTPStatusCode.Ok).send();
+
+    } catch (e) {
         if (e instanceof CustomError) {
             res.status(e.statusCode).send(e.message);
         } else {
@@ -104,8 +139,11 @@ const addElementToCollection = async (req: Request, res: Response) => {
 }
 
 
+
 export const collectionController = {
     createCollection,
     getCollectionById,
     addElementToCollection,
+    removeElementFromCollection,
+    deleteCollection,
 }

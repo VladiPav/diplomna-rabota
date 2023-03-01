@@ -9,7 +9,7 @@ const createCategory = async (name: string): Promise<Category> => {
                 name: name,
             }
         });
-      
+
 
         if (categoryAlreadyExists) {
             const error = {
@@ -27,8 +27,8 @@ const createCategory = async (name: string): Promise<Category> => {
         });
 
         return category;
-    } catch (error) {
-        throw error;
+    } catch (e) {
+        throw e;
     }
 }
 
@@ -44,8 +44,8 @@ const getAllCategories = (name?: string): Promise<Category[]> => {
 
         return categories;
 
-    } catch (error) {
-        throw error;
+    } catch (e) {
+        throw e;
     }
 }
 
