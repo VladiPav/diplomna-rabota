@@ -1,5 +1,5 @@
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
-import { Prisma } from "@prisma/client";
+import { CollectionElement, Prisma } from "@prisma/client";
 import { prismaService } from "./prisma-service";
 
 const createCollection = async (name: string, userId: string, categoryId: string) => {
@@ -43,19 +43,25 @@ const createCollection = async (name: string, userId: string, categoryId: string
   }
 }
 
-const reorderCollection = async (collectionId: string, newPostitions: string[]) => {
+const reorderCollection = async (collectionId: string, reorderedCollection: CollectionElement[]) => {
   try {
+    await prismaService.$transaction(async (prisma) => {
+      for (let i = 0; i < reorderedCollection.length; i++) {
+        console.log('\x1b[41m hello \x1b[0m');
+        await prisma.collectionElement.updateMany({
+          where: {
+            collectionId: collectionId,
+            elementId: reorderedCollection[i].elementId,
+          },
+          data: {
+            position: `${i + 1}`,
+          }
+        });
+      }
 
 
-    // prismaService.$transaction(async (prisma) => {
-    //     for (let i in newPostitions) {
-    //         await prisma.collectionElement.update({
-    //             where: {
-    //                 id
-    //             }
-    //         });
-    //     }
-    // })
+    });
+
   } catch (e) {
     throw e;
   }
@@ -144,6 +150,7 @@ const deleteCollection = async (id: string) => {
 export const collectionService = {
   createCollection,
   getCollectionById,
+  reorderCollection,
   addElementToCollection,
   removeElementFromCollection,
   deleteCollection,

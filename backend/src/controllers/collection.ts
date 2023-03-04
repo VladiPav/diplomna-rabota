@@ -139,6 +139,24 @@ const deleteCollection = async (req: Request, res: Response) => {
 }
 
 
+const reorderCollection = async (req: Request, res: Response) => {
+    try {
+        const { id, collectionElements } = req.body;
+
+        await collectionService.reorderCollection(id, collectionElements);
+
+        res.status(HTTPStatusCode.Ok).send();
+
+    } catch (e) {
+        if (e instanceof CustomError) {
+            res.status(e.statusCode).send(e.message);
+        } else {
+            res.status(HTTPStatusCode.InternalServerError).send(e);
+        }
+    }
+}
+
+
 
 export const collectionController = {
     createCollection,
@@ -146,4 +164,5 @@ export const collectionController = {
     addElementToCollection,
     removeElementFromCollection,
     deleteCollection,
+    reorderCollection,
 }

@@ -280,4 +280,13 @@ class ApiService {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");
     }
   }
+
+  Future<void> reorderCollection(Collection collection) async {
+    try {
+      final result = await _dio.put('/collections/${collection.id}', data: collection);
+      return;
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
 }

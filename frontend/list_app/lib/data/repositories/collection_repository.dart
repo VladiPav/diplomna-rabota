@@ -21,4 +21,6 @@ class CollectionRepository {
 
   Future<void> removeElement(String elementId, String collectionId) =>
       api.removeElementFromCollection(elementId, collectionId);
+
+  Future<void> reorderCollection(Collection collection) => api.reorderCollection(collection);
 }

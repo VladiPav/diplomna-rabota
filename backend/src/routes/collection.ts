@@ -13,6 +13,8 @@ router.get('/:id', collectionController.getCollectionById);
 
 router.post('/', collectionController.createCollection);
 
+router.put('/:id', collectionController.reorderCollection);
+
 
 
 
