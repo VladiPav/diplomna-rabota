@@ -200,6 +200,15 @@ class ApiService {
     }
   }
 
+  Future<void> deleteCollection(String collectionId) async {
+    try {
+      final result = await _dio.delete('/collections/$collectionId');
+      return;
+    }catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
   Future<void> createCategory(String name) async {
     try {
       final category = await _dio.post(
@@ -255,6 +264,17 @@ class ApiService {
         },
       );
 
+      return;
+    } catch (error, stacktrace) {
+      throw Exception("Exception occured: $error stacktrace: $stacktrace");
+    }
+  }
+
+  Future<void> removeElementFromCollection(
+      String elementId, String collectionId,
+      ) async {
+    try {
+      final result = await _dio.delete('/collections/$collectionId/elements/$elementId');
       return;
     } catch (error, stacktrace) {
       throw Exception("Exception occured: $error stacktrace: $stacktrace");

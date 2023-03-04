@@ -95,14 +95,6 @@ const getElementsByCategory = async (categoryId: string, query?: string, collect
     }
 }
 
-const deleteElement = async () => {
-    try {
-
-    } catch (e) {
-        throw e;
-    }
-}
-
 export const elementService = {
     createElement,
     getElementsByCategory,

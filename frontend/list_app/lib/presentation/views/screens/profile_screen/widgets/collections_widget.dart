@@ -4,8 +4,10 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../../models/user_model.dart';
 import '../../../../common_providers/common_providers.dart';
+import '../../../../common_providers/repository_providers.dart';
 import '../../../../themes/themes.dart';
 import '../../../../util/route_manager.dart';
+import '../../../custom_widgets/custom_alert_dialog.dart';
 import '../../../custom_widgets/custom_button.dart';
 
 class CollectionsWidget extends ConsumerWidget {
@@ -48,8 +50,65 @@ class CollectionsWidget extends ConsumerWidget {
                       return Card(
                         surfaceTintColor: Colors.transparent,
                         child: ListTile(
-                          leading: Text('${collection.collectionElements.length}'),
+                          leading:
+                              Text('${collection.collectionElements.length}'),
                           title: Text(collection.name ?? 'alo'),
+                          trailing: user.id == currentUser.id
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.delete,
+                                    color: customGray1,
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomAlertDialog(
+                                        title: Text(
+                                          'Are you sure?',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        content: Text(
+                                          'Are you sure you want to delete this collection?',
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                                foregroundColor: primaryColor),
+                                            onPressed: () async {
+                                              await ref
+                                                  .read(
+                                                      collectionRepositoryProvider)
+                                                  .deleteCollection(
+                                                      collection.id);
+                                              ref.invalidate(
+                                                  currentUserProvider);
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              'Ok',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            style: TextButton.styleFrom(
+                                                foregroundColor: primaryColor),
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700),
+                                            ),
+                                          ),
+                                        ],
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  },
+                                )
+                              : null,
                           onTap: () {
                             print('COLLECTIONID:\n${collection.id}');
                             ref.read(collectionIdProvider.notifier).state =

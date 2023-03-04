@@ -75,6 +75,7 @@ class CreateCollectionScreen extends ConsumerWidget {
                               category?.id,
                             );
                         ref.read(isLoadingProvider.notifier).state = false;
+                        ref.invalidate(currentUserProvider);
                         Navigator.pop(context);
                       },
                 style: ButtonStyle(

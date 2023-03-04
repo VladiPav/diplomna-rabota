@@ -24,9 +24,11 @@ class CustomAlertDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
         ),
         actions: actions,
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
         backgroundColor: color,
         title: title,
         content: content,
+        actionsPadding: EdgeInsets.only(bottom: 10),
       ),
     );
   }

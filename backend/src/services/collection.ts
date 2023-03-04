@@ -1,4 +1,5 @@
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
+import { Prisma } from "@prisma/client";
 import { prismaService } from "./prisma-service";
 
 const createCollection = async (name: string, userId: string, categoryId: string) => {
@@ -119,9 +120,23 @@ const removeElementFromCollection = async (elementId: string, collectionId: stri
 
 const deleteCollection = async (id: string) => {
   try {
-
+    await prismaService.collection.delete({
+      where: {
+        id: id
+      }
+    });
   } catch (e) {
-    throw e;
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      if (e.code === 'P2025') {
+        const error = {
+          statusCode: HTTPStatusCode.BadRequest,
+          message: "Collection to delete doesn't exist",
+          internalMessage: InternalErrorMessage.BadRequest,
+        };
+        throw new CustomError(error);
+      }
+      throw e;
+    }
   }
 }
 
