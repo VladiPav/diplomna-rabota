@@ -82,7 +82,7 @@ class CollectionScreen extends ConsumerWidget {
                                                       element.elementId,
                                                       collection.id);
                                               ref.invalidate(
-                                                  currentUserProvider);
+                                                  collectionProvider);
                                               Navigator.pop(context);
                                             },
                                             child: Text('Ok', style: TextStyle(fontWeight: FontWeight.w700),),
