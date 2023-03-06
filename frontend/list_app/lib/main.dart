@@ -28,7 +28,7 @@ class ListApp extends StatelessWidget {
       scaffoldMessengerKey: scaffoldKey,
       navigatorKey: navigatorKey,
       useInheritedMediaQuery: true,
-      initialRoute: Routes.login,
+      initialRoute: Routes.accessValidator,
       onGenerateRoute: AppRouter.generateRoute,
       theme: getThemeData(),
     );
