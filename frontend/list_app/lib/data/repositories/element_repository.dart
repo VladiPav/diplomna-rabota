@@ -1,4 +1,4 @@
-import '../../models/element_model.dart';
+import '../models/element_model.dart';
 import '../api/api_service.dart';
 
 class ElementRepository {

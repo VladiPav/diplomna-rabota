@@ -72,8 +72,4 @@ class AuthRepository {
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
   }
-
-  Future<void> sendPasswordResetLink(String email) async {
-    await _firebaseAuth.sendPasswordResetEmail(email: email);
-  }
 }

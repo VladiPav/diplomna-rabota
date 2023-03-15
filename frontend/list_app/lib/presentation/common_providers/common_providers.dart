@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/api/api_service.dart';
-import '../../data/repositories/user_repository.dart';
-import '../../models/collection_model.dart';
-import '../../models/user_model.dart';
+import '../../data/models/collection_model.dart';
+import '../../data/models/user_model.dart';
 import 'repository_providers.dart';
 
 final apiProvider = Provider<ApiService>((ref) => ApiService());

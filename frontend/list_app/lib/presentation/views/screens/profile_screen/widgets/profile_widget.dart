@@ -6,7 +6,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../data/repositories/user_repository.dart';
-import '../../../../../models/user_model.dart';
+import '../../../../../data/models/user_model.dart';
 import '../../../../common_providers/common_providers.dart';
 import '../../../../common_providers/repository_providers.dart';
 import '../../../../themes/themes.dart';

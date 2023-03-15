@@ -3,10 +3,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import '../../models/category_model.dart';
-import '../../models/collection_model.dart';
-import '../../models/element_model.dart';
-import '../../models/user_model.dart';
+import '../models/category_model.dart';
+import '../models/collection_model.dart';
+import '../models/element_model.dart';
+import '../models/user_model.dart';
 import 'auth_interseptor.dart';
 
 class ApiService {

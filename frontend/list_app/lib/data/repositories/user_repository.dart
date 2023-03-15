@@ -1,9 +1,4 @@
-
-import 'dart:developer';
-
-import 'package:dio/dio.dart';
-
-import '../../models/user_model.dart';
+import '../models/user_model.dart';
 import '../api/api_service.dart';
 
 class UserRepository {

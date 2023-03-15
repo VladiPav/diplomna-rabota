@@ -1,6 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-
-import '../data/api/api_service.dart';
 import 'collection_model.dart';
 
 part 'user_model.g.dart';

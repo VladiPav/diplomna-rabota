@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../models/element_model.dart';
+import '../../../../data/models/element_model.dart';
 import '../../../common_providers/common_providers.dart';
 import '../../../common_providers/repository_providers.dart';
 

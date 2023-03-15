@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../../../../data/api/api_service.dart';
-import '../../../../../models/user_model.dart';
+import '../../../../../data/models/user_model.dart';
 import '../../../../themes/themes.dart';
 import '../../profile_screen/widgets/profile_widget.dart';
 

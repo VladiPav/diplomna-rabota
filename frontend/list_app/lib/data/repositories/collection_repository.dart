@@ -1,5 +1,4 @@
-import '../../models/collection_model.dart';
-import '../../models/element_model.dart';
+import '../models/collection_model.dart';
 import '../api/api_service.dart';
 
 class CollectionRepository {
@@ -22,5 +21,6 @@ class CollectionRepository {
   Future<void> removeElement(String elementId, String collectionId) =>
       api.removeElementFromCollection(elementId, collectionId);
 
-  Future<void> reorderCollection(Collection collection) => api.reorderCollection(collection);
+  Future<void> reorderCollection(Collection collection) =>
+      api.reorderCollection(collection);
 }
