@@ -16,3 +16,4 @@ const upload = multer({
 });
 
 export const uploadMiddleware = upload;
+
