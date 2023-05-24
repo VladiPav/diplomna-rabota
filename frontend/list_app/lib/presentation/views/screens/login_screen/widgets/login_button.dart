@@ -16,8 +16,8 @@ class LoginButton extends ConsumerWidget {
     final password = ref.watch(loginPasswordControllerProvider);
 
     return CustomButton(
-      width: 155,
-      height: 50,
+      // width: 155,
+      // height: 50,
       fontSize: 24,
       text: "Log In",
       borderRadius: 100,

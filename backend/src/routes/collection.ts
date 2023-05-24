@@ -1,11 +1,11 @@
-import { Router } from "express";
-import { collectionController } from "../controllers/collection";
+import { Router } from 'express';
+import { collectionController } from '../controllers/collection';
 
 const router = Router();
 
 router.delete(
-    '/:collectionId/elements/:elementId', 
-    collectionController.removeElementFromCollection
+  '/:collectionId/elements/:elementId', 
+  collectionController.removeElementFromCollection
 );
 
 router.delete('/:id', collectionController.deleteCollection);

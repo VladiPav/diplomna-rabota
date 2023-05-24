@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -59,8 +60,6 @@ class ProfileWidget extends ConsumerWidget {
                             children: [
                               CustomButton(
                                 text: 'Change Photo',
-                                width: 130,
-                                height: 40,
                                 fontSize: 15,
                                 func: () async {
                                   XFile? xfile = await ImagePicker()
@@ -73,8 +72,8 @@ class ProfileWidget extends ConsumerWidget {
                               ),
                               CustomButton(
                                 text: 'Log Out',
-                                width: 130,
-                                height: 40,
+                                // width: 130,
+                                // height: 40,
                                 fontSize: 15,
                                 func: () async {
                                   await auth.signOut().then(

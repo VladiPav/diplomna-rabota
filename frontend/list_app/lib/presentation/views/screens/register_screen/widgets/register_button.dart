@@ -19,8 +19,8 @@ class RegisterButton extends ConsumerWidget {
     final username = ref.watch(registerUsernameControllerProvider);
 
     return CustomButton(
-      width: 155,
-      height: 50,
+      // width: 155,
+      // height: 50,
       fontSize: 24,
       text: "Register",
       borderRadius: 100,

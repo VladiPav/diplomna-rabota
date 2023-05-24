@@ -5,11 +5,11 @@ import '../../themes/themes.dart';
 class CustomButton extends StatelessWidget {
   const CustomButton({
     required this.text,
-    required this.width,
-    required this.height,
     required this.fontSize,
     required this.func,
     Key? key,
+    this.width,
+    this.height,
     this.foregroundColor,
     this.backgroundColor,
     this.borderRadius,
@@ -21,14 +21,13 @@ class CustomButton extends StatelessWidget {
   final double? borderRadius;
   final String text;
   final double fontSize;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final double? elevation;
   final void Function() func;
 
   @override
-  Widget build(BuildContext context) {
-    return ElevatedButton(
+  Widget build(BuildContext context) => ElevatedButton(
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.all<Color>(
           Color.fromRGBO(255, 255, 255, 0.2),
@@ -54,12 +53,12 @@ class CustomButton extends StatelessWidget {
             ),
           ]),
         ),
-        fixedSize: MaterialStateProperty.all<Size>(
-          Size(width, height),
-        ),
+        fixedSize: width != null && height != null ? MaterialStateProperty.all<Size>(
+          Size(width!, height!),
+        ) : null
+        ,
       ),
       onPressed: func,
       child: Text(text),
     );
-  }
 }

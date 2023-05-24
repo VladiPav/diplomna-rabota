@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -45,8 +46,16 @@ class UserSearchDelegate extends SearchDelegate {
                     itemBuilder: (context, index) {
                       final suggestion = suggestions[index];
                       return ListTile(
-                        leading: Image.network(suggestion.profileImagePath ??
-                            'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',),
+                        leading: Padding(
+                          padding: const EdgeInsets.fromLTRB(15, 5, 5, 5),
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundImage: NetworkImage(
+                              suggestion.profileImagePath ??
+                                  'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png',
+                            ),
+                          ),
+                        ),
                         title: Text(suggestion.username),
                         onTap: () {
                           query = suggestion.username;

@@ -1,6 +1,5 @@
-import { initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 import { CustomError, HTTPStatusCode, InternalErrorMessage } from '../types/error';
 import { prismaService } from '../services/prisma-service';
 
@@ -18,7 +17,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction): Pro
     if (!token) {
       const error = {
         statusCode: HTTPStatusCode.Forbidden,
-        message: "No auth token",
+        message: 'No auth token',
         internalMessage: InternalErrorMessage.BadRequest,
       };
       throw new CustomError(error);
@@ -26,7 +25,6 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction): Pro
 
 
     const decodedToken = await getAuth().verifyIdToken(token);
-    console.log(token);
 
     res.locals.currentUser = await prismaService.user.findFirst({
       where: {
@@ -45,7 +43,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction): Pro
       },
     });
 
-    return next()
+    return next();
 
   } catch (e) {
     console.log(e);
@@ -55,7 +53,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction): Pro
       res.status(HTTPStatusCode.InternalServerError).send(e);
     }
   }
-}
+};
 
 export const authMiddleware = verifyToken;
 

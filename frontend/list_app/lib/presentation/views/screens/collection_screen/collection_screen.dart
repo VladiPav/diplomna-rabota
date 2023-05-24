@@ -24,17 +24,19 @@ class CollectionScreen extends ConsumerWidget {
     final currentUser = ref.watch(currentUserProvider);
     return collection.when(
         data: (collection) => Scaffold(
-            appBar: AppBar(
-              title: Text(collection.name),
-            ),
-            body: SafeArea(
-              child: currentUser.when(
-                data: (currentUser) => currentUser.id == user.id
+              appBar: AppBar(
+                title: Text(collection.name),
+              ),
+              body: SafeArea(
+                child: currentUser.when(
+                  data: (currentUser) => currentUser.id == user.id
                       ? ReorderableListView.builder(
-                          header: const Text(
-                            'Press and hold an item to reorder',
-                            textAlign: TextAlign.center,
-                          ),
+                          header: collection.collectionElements.length > 1
+                              ? const Text(
+                                  'Press and hold an item to reorder',
+                                  textAlign: TextAlign.center,
+                                )
+                              : null,
                           shrinkWrap: true,
                           itemCount: collection.collectionElements.length,
                           itemBuilder: (context, int index) {
@@ -150,16 +152,16 @@ class CollectionScreen extends ConsumerWidget {
                               ),
                             );
                           }),
-                error: (error, stacktrace) => Text('Error: $error'),
-                loading: () => const Center(
-                  child: SpinKitWave(
-                    color: primaryColor,
+                  error: (error, stacktrace) => Text('Error: $error'),
+                  loading: () => const Center(
+                    child: SpinKitWave(
+                      color: primaryColor,
+                    ),
                   ),
                 ),
               ),
-            ),
-            bottomNavigationBar: currentUser.when(
-              data: (currentUser) => currentUser.id == user.id
+              bottomNavigationBar: currentUser.when(
+                data: (currentUser) => currentUser.id == user.id
                     ? Container(
                         color: Colors.transparent,
                         child: Row(
@@ -169,8 +171,8 @@ class CollectionScreen extends ConsumerWidget {
                               padding: const EdgeInsets.symmetric(vertical: 30),
                               child: CustomButton(
                                 text: 'Add Item',
-                                width: 150,
-                                height: 45,
+                                // width: 150,
+                                // height: 45,
                                 fontSize: 18,
                                 func: () {
                                   ref.invalidate(elementTextFieldProvider);
@@ -184,15 +186,15 @@ class CollectionScreen extends ConsumerWidget {
                         ),
                       )
                     : const Text(''),
-              error: (error, stacktrace) => Text('Error: $error'),
-              loading: () => const Center(
-                child: SpinKitWave(
-                  color: primaryColor,
+                error: (error, stacktrace) => Text('Error: $error'),
+                loading: () => const Center(
+                  child: SpinKitWave(
+                    color: primaryColor,
+                  ),
                 ),
               ),
+              extendBody: true,
             ),
-            extendBody: true,
-          ),
         error: (error, stacktrace) => Text('Error: $error'),
         loading: () => const Scaffold(
               body: Center(

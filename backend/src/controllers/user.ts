@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import { userService } from "../services/user"
-import { CustomError, HTTPStatusCode, InternalErrorMessage } from "../types/error";
-import path from "path";
+import { Request, Response } from 'express';
+import { userService } from '../services/user';
+import { CustomError, HTTPStatusCode, InternalErrorMessage } from '../types/error';
+import path from 'path';
 
 const createUser = async (req: Request, res: Response) => {
   try {
@@ -14,7 +14,7 @@ const createUser = async (req: Request, res: Response) => {
     if (!email || !username || !firebaseId) {
       const error = {
         statusCode: HTTPStatusCode.BadRequest,
-        message: "Invalid input",
+        message: 'Invalid input',
         internalMessage: InternalErrorMessage.BadRequest,
       };
       throw new CustomError(error);
@@ -22,7 +22,7 @@ const createUser = async (req: Request, res: Response) => {
 
     const user = await userService.createUser({ email, username, firebaseId });
 
-    res.send(user);
+    res.status(HTTPStatusCode.Created).send(user);
 
   } catch (e) {
     if (e instanceof CustomError) {
@@ -32,20 +32,20 @@ const createUser = async (req: Request, res: Response) => {
     }
   }
 
-}
+};
 
 const uploadProfileImage = async (req: Request, res: Response) => {
   try {
     if (!req.file?.path) {
       const error = {
         statusCode: HTTPStatusCode.BadRequest,
-        message: "Image path is undefined",
+        message: 'Image path is undefined',
         internalMessage: InternalErrorMessage.BadRequest,
       };
       throw new CustomError(error);
     }
 
-    const imagePath = (req.file?.path).split(path.sep).join(path.posix.sep);;
+    const imagePath = (req.file?.path).split(path.sep).join(path.posix.sep);
     userService.updateProfileImage(res.locals.currentUser, imagePath);
     res.status(HTTPStatusCode.Created).json(imagePath);
   }
@@ -57,7 +57,7 @@ const uploadProfileImage = async (req: Request, res: Response) => {
       res.status(HTTPStatusCode.InternalServerError).send(e);
     }
   }
-}
+};
 
 const getAllUsers = async (req: Request, res: Response) => {
   try {
@@ -84,7 +84,7 @@ const getAllUsers = async (req: Request, res: Response) => {
       res.status(HTTPStatusCode.InternalServerError).send(e);
     }
   }
-}
+};
 
 const getUserById = async (req: Request, res: Response) => {
   try {
@@ -93,7 +93,7 @@ const getUserById = async (req: Request, res: Response) => {
     if (!id) {
       const error = {
         statusCode: HTTPStatusCode.BadRequest,
-        message: "You must provide id",
+        message: 'You must provide id',
         internalMessage: InternalErrorMessage.BadRequest,
       };
       throw new CustomError(error);
@@ -111,7 +111,7 @@ const getUserById = async (req: Request, res: Response) => {
       res.status(HTTPStatusCode.InternalServerError).send(e);
     }
   }
-}
+};
 
 const getCurrentUser = async (req: Request, res: Response) => {
   try {
@@ -125,12 +125,7 @@ const getCurrentUser = async (req: Request, res: Response) => {
       res.status(HTTPStatusCode.InternalServerError).send(e);
     }
   }
-}
-
-const deleteUser = async (req: Request, res: Response) => {
-
-}
-
+};
 
 export const userController = {
   createUser,
@@ -138,5 +133,4 @@ export const userController = {
   getAllUsers,
   getUserById,
   getCurrentUser,
-  deleteUser,
-}
+};

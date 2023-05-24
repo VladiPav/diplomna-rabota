@@ -1,9 +1,7 @@
-import { Router } from "express";
-import { userController } from "../controllers/user"
-import { relationshipRouter } from "./relationship";
-import { uploadMiddleware } from "../middleware/upload";
-import { HTTPStatusCode } from "../types/error";
-
+import { Router } from 'express';
+import { userController } from '../controllers/user';
+import { relationshipRouter } from './relationship';
+import { uploadMiddleware } from '../middleware/upload';
 
 const router = Router();
 

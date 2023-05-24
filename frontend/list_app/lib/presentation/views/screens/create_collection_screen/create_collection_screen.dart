@@ -51,8 +51,8 @@ class CreateCollectionScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(right: 4),
                       child: CustomButton(
                           text: 'Choose category',
-                          width: 150,
-                          height: 35,
+                          // width: 150,
+                          // height: 35,
                           fontSize: 15,
                           func: () {
                             Navigator.pushNamed(context, Routes.chooseCategory);
